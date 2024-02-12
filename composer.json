@@ -1,0 +1,21 @@
+{
+  "name": "drupal/lytics",
+  "description": "Integrates Lytics Decision Engine JavaScript tag into Drupal.",
+  "type": "drupal-module",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Kyle Taylor (kyletaylored)",
+      "homepage": "https://www.drupal.org/u/kyletaylored",
+      "role": "Maintainer"
+    }
+  ],
+  "homepage": "https://drupal.org/project/lytics",
+  "support": {
+    "issues": "https://drupal.org/project/issues/lytics",
+    "source": "https://git.drupalcode.org/project/lytics"
+  },
+  "require": {
+    "drupal/core": "^9 || ^10"
+  }
+}

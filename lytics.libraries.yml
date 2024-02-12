@@ -1,0 +1,6 @@
+lytics-js:
+  version: 1.x
+  js:
+    js/lytics_integration.js: {}
+  dependencies:
+    - core/drupalSettings

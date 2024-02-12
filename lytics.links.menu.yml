@@ -1,0 +1,6 @@
+lytics.admin_settings:
+  title: 'Lytics'
+  description: 'Configure Lytics integration settings.'
+  parent: system.admin_config_system
+  route_name: lytics.settings_form
+  weight: 100

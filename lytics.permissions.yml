@@ -1,0 +1,3 @@
+administer lytics settings:
+  title: 'Administer Lytics settings'
+  description: 'Allow users to manage Lytics integration settings.'
