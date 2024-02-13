@@ -42,7 +42,7 @@ class LyticsSettingsForm extends ConfigFormBase {
     // Grouped fields.
     $form['settings'] = [
       '#type' => 'details',
-      '#title' => $this->t('Lytics Settings'),
+      '#title' => $this->t('Lytics Tag Configuration'),
       '#open' => TRUE,
       // Use the #states property to make this group visible only if 'enabled' is checked.
       '#states' => [
@@ -56,7 +56,7 @@ class LyticsSettingsForm extends ConfigFormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Lytics Tag ID'),
       '#default_value' => $config->get('tag_id'),
-      '#description' => $this->t('Enter the unique Lytics tag ID.'),
+      '#description' => $this->t('Enter the unique Lytics tag ID. <br>Given the URL of <code>https://c.lytics.io/api/tag/12345/latest.min.js</code>, the tag ID is <code>12345</code>.')
     ];
 
     $form['settings']['debug_mode'] = [

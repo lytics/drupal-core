@@ -9,19 +9,21 @@
  */
 function lytics_page_attachments(array &$attachments) {
   // Check if the current route is an admin route.
-  $is_admin_route = \Drupal::service('router.admin_context')->isAdminRoute();
+  $is_admin_route = Drupal::service('router.admin_context')->isAdminRoute();
 
   // Only add Lytics JS on non-admin pages.
   if (!$is_admin_route) {
-    $config = \Drupal::config('lytics.settings');
+    $config = Drupal::config('lytics.settings');
     if ($config->get('enabled')) {
       $tag_id = $config->get('tag_id');
-      $debug_mode = $config->get('debug_mode');
-      $js_file = $debug_mode ? 'latest.js' : 'latest.min.js';
-      $src = 'https://c.lytics.io/api/tag/' . $tag_id . '/' . $js_file;
+      if (!empty($tag_id)) {
+        $debug_mode = $config->get('debug_mode');
+        $js_file = $debug_mode ? 'latest.js' : 'latest.min.js';
+        $src = 'https://c.lytics.io/api/tag/' . $tag_id . '/' . $js_file;
 
-      $attachments['#attached']['library'][] = 'lytics/lytics-js';
-      $attachments['#attached']['drupalSettings']['lytics']['src'] = $src;
+        $attachments['#attached']['library'][] = 'lytics/lytics-js';
+        $attachments['#attached']['drupalSettings']['lytics']['src'] = $src;
+      }
     }
   }
 }
@@ -43,7 +45,7 @@ function lytics_help($route_name, $route_match) {
   switch ($route_name) {
     case 'help.page.lytics':
       return '<h2>' . t('About') . '</h2>'
-        . '<p>' . t('The Lytics module integrates the Lytics Decision Engine JavaScript tag into your Drupal site.') . '</p>'
+        . '<p>' . t('The Lytics module integrates the Lytics SDK JavaScript tag into your Drupal site.') . '</p>'
         . '<h2>' . t('Usage') . '</h2>'
         . '<p>' . t('To configure the Lytics module, navigate to the settings form at Administration > Configuration > System > Lytics settings. Here you can enable the integration, enter your unique Lytics tag ID, and toggle debug mode.') . '</p>';
   }
