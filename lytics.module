@@ -8,15 +8,21 @@
  * @return void
  */
 function lytics_page_attachments(array &$attachments) {
-  $config = Drupal::config('lytics.settings');
-  if ($config->get('enabled')) {
-    $tag_id = $config->get('tag_id');
-    $debug_mode = $config->get('debug_mode');
-    $js_file = $debug_mode ? 'latest.js' : 'latest.min.js';
-    $src = 'https://c.lytics.io/api/tag/' . $tag_id . '/' . $js_file;
+  // Check if the current route is an admin route.
+  $is_admin_route = \Drupal::service('router.admin_context')->isAdminRoute();
 
-    $attachments['#attached']['library'][] = 'lytics/lytics-js';
-    $attachments['#attached']['drupalSettings']['lytics']['src'] = $src;
+  // Only add Lytics JS on non-admin pages.
+  if (!$is_admin_route) {
+    $config = \Drupal::config('lytics.settings');
+    if ($config->get('enabled')) {
+      $tag_id = $config->get('tag_id');
+      $debug_mode = $config->get('debug_mode');
+      $js_file = $debug_mode ? 'latest.js' : 'latest.min.js';
+      $src = 'https://c.lytics.io/api/tag/' . $tag_id . '/' . $js_file;
+
+      $attachments['#attached']['library'][] = 'lytics/lytics-js';
+      $attachments['#attached']['drupalSettings']['lytics']['src'] = $src;
+    }
   }
 }
 
