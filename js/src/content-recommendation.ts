@@ -1,4 +1,4 @@
-import { DrupalSettings } from "./types/drupalTypes";
+import { DrupalSettings } from "../types/drupalTypes";
 
 // Ensure Drupal and drupalSettings are recognized
 declare const Drupal: any;

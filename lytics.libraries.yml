@@ -6,6 +6,14 @@ lytics-js:
     - core/drupal
     - core/drupalSettings
 
+lytics-inline-recommendation:
+  version: 1.0
+  js:
+    js/inlineRecommendation.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+
 lytics-styles:
   version: 1.0
   css:

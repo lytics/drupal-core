@@ -1,6 +1,6 @@
 // main.ts
 
-import "./src/example";
+import "./src/content-recommendation";
 
 // Shared setup that should run before any specific behavior.
 console.log("Lytics module JS initialized.");

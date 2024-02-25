@@ -155,6 +155,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "js/main.ts"),
+        inlineRecommendation: path.resolve(
+          __dirname,
+          "js/inline-recommendation.ts"
+        ),
         style: path.resolve(__dirname, "styles/main.scss"),
       },
       output: {

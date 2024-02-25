@@ -24,7 +24,7 @@ class LyticsContentRecommendationBlock extends BlockBase implements BlockPluginI
   public function build()
   {
     $config = $this->getConfiguration();
-    $textString = !empty($config['text_block']) ? $config['text_block'] : 'No recommendations available.';
+    $textString = 'No recommendations available.';
 
     return [
       '#markup' => '
@@ -32,7 +32,7 @@ class LyticsContentRecommendationBlock extends BlockBase implements BlockPluginI
       ',
       '#attached' => [
         'library' => [
-          'lytics/lytics-js',
+          'lytics/lytics-inline-recommendation',
           'lytics/lytics-styles',
         ],
       ],
@@ -47,11 +47,15 @@ class LyticsContentRecommendationBlock extends BlockBase implements BlockPluginI
     $form = parent::blockForm($form, $form_state);
     $config = $this->getConfiguration();
 
-    $form['text_block'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Content Recommendation Text'),
-      '#description' => $this->t('Enter the text or HTML for content recommendations.'),
-      '#default_value' => $config['text_block'] ?? '',
+    $form['content_collection'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Preferred Content Collection'),
+      '#description' => $this->t('Select the collection of content to make a recommendation from.'),
+      '#options' => [
+        'content_with_images' => $this->t('Content With Images'),
+        'content_all' => $this->t('All Content'),
+      ],
+      '#default_value' => $config['content_collection'] ?? 'content_with_images',
     ];
 
     return $form;
@@ -62,6 +66,6 @@ class LyticsContentRecommendationBlock extends BlockBase implements BlockPluginI
    */
   public function blockSubmit($form, FormStateInterface $form_state)
   {
-    $this->setConfigurationValue('text_block', $form_state->getValue('text_block'));
+    $this->setConfigurationValue('content_collection', $form_state->getValue('content_collection'));
   }
 }
