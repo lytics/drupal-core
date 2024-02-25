@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="LyticsCDP Coding Standards">
+<ruleset name="lytics Coding Standards">
     <!-- Path to Drupal Coder Sniffer -->
     <rule ref="Drupal"/>
     <rule ref="DrupalPractice"/>

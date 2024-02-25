@@ -1,13 +1,14 @@
 <?php
 
-namespace Drupal\lyticscdp\Controller;
+namespace Drupal\lytics\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 
 /**
- * Returns responses for LyticsCDP routes.
+ * Returns responses for lytics routes.
  */
-class AnalyticsDashboardController extends ControllerBase {
+class AnalyticsDashboardController extends ControllerBase
+{
 
   /**
    * Renders the analytics dashboard.
@@ -15,13 +16,14 @@ class AnalyticsDashboardController extends ControllerBase {
    * @return array
    *   A render array for the analytics dashboard.
    */
-  public function content() {
+  public function content()
+  {
     return [
       '#theme' => 'analytics_dashboard',
       '#data' => $this->getAnalyticsData(),
       '#attached' => [
         'library' => [
-          'lyticscdp/dashboard-styling',
+          'lytics/dashboard-styling',
         ],
       ],
     ];
@@ -33,7 +35,8 @@ class AnalyticsDashboardController extends ControllerBase {
    * @return array
    *   An array of mock analytics data.
    */
-  protected function getAnalyticsData() {
+  protected function getAnalyticsData()
+  {
     // This should ideally fetch data from your analytics provider.
     return [
       // Example data

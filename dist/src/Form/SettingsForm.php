@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\lyticscdp\Form;
+namespace Drupal\lytics\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -10,17 +10,17 @@ class SettingsForm extends ConfigFormBase
 
   protected function getEditableConfigNames()
   {
-    return ['lyticscdp.settings'];
+    return ['lytics.settings'];
   }
 
   public function getFormId()
   {
-    return 'lyticscdp_settings_form';
+    return 'lytics_settings_form';
   }
 
   public function buildForm(array $form, FormStateInterface $form_state)
   {
-    $config = $this->config('lyticscdp.settings');
+    $config = $this->config('lytics.settings');
     $existingToken = $config->get('apitoken');
 
     $form['apitoken'] = [
@@ -133,7 +133,7 @@ class SettingsForm extends ConfigFormBase
         }
       }
     } catch (\Exception $e) {
-      \Drupal::logger('lyticscdp')->error('Failed to fetch account details: @message', ['@message' => $e->getMessage()]);
+      \Drupal::logger('lytics')->error('Failed to fetch account details: @message', ['@message' => $e->getMessage()]);
       return FALSE;
     }
     return FALSE;
@@ -143,7 +143,7 @@ class SettingsForm extends ConfigFormBase
   {
     $accountDetails = $form_state->get('account_details');
 
-    $config = $this->config('lyticscdp.settings');
+    $config = $this->config('lytics.settings');
     $config->set('apitoken', $form_state->getValue('apitoken'))
       ->set('tag_config', $form_state->getValue('tag_config'))
       ->set('enable_tag', $form_state->getValue('enable_tag'))

@@ -48,16 +48,16 @@ export default defineConfig({
         "styles/**",
         "js/**",
         "config/**",
-        "lyticscdp.libraries.yml",
+        "lytics.libraries.yml",
         "composer.json",
-        "lyticscdp.info.yml",
-        "lyticscdp.install",
-        "lyticscdp.links.action.yml",
-        "lyticscdp.links.menu.yml",
-        "lyticscdp.module",
-        "lyticscdp.permissions.yml",
-        "lyticscdp.routing.yml",
-        "lyticscdp.services.yml",
+        "lytics.info.yml",
+        "lytics.install",
+        "lytics.links.action.yml",
+        "lytics.links.menu.yml",
+        "lytics.module",
+        "lytics.permissions.yml",
+        "lytics.routing.yml",
+        "lytics.services.yml",
         "phpcs.xml",
       ],
       exclude: ["node_modules", "dist", ".git"],
@@ -71,7 +71,7 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: "lyticscdp.libraries.yml",
+          src: "lytics.libraries.yml",
           dest: ".",
         },
         {
@@ -83,35 +83,35 @@ export default defineConfig({
           dest: ".",
         },
         {
-          src: "lyticscdp.info.yml",
+          src: "lytics.info.yml",
           dest: ".",
         },
         {
-          src: "lyticscdp.install",
+          src: "lytics.install",
           dest: ".",
         },
         {
-          src: "lyticscdp.links.action.yml",
+          src: "lytics.links.action.yml",
           dest: ".",
         },
         {
-          src: "lyticscdp.links.menu.yml",
+          src: "lytics.links.menu.yml",
           dest: ".",
         },
         {
-          src: "lyticscdp.module",
+          src: "lytics.module",
           dest: ".",
         },
         {
-          src: "lyticscdp.permissions.yml",
+          src: "lytics.permissions.yml",
           dest: ".",
         },
         {
-          src: "lyticscdp.routing.yml",
+          src: "lytics.routing.yml",
           dest: ".",
         },
         {
-          src: "lyticscdp.services.yml",
+          src: "lytics.services.yml",
           dest: ".",
         },
         {

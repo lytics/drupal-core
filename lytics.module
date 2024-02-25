@@ -5,16 +5,16 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 /**
  * Implements hook_page_attachments().
  */
-function lyticscdp_page_attachments(array &$attachments)
+function lytics_page_attachments(array &$attachments)
 {
   $is_admin_route = \Drupal::service('router.admin_context')->isAdminRoute();
 
   if (!$is_admin_route) {
     $user = \Drupal::currentUser();
-    $config = \Drupal::config('lyticscdp.settings');
+    $config = \Drupal::config('lytics.settings');
 
     // If explicitly preventing admin users from being tracked, return early
-    if ($config->get('ignore_admin_users') && $user->hasPermission('manage lyticscdp connection')) {
+    if ($config->get('ignore_admin_users') && $user->hasPermission('manage lytics connection')) {
       return;
     }
 
@@ -36,13 +36,13 @@ function lyticscdp_page_attachments(array &$attachments)
       $attachments['#attached']['html_head'][] = [
         [
           '#type' => 'inline_template',
-          '#template' => "{% include '@lyticscdp/lyticscdp-install.html.twig' with {'config': config|raw} %}",
+          '#template' => "{% include '@lytics/lytics-install.html.twig' with {'config': config|raw} %}",
           '#context' => ['config' => $modifiedTagConfigJson],
         ],
-        'lyticscdp_install',
+        'lytics_install',
       ];
     } else {
-      \Drupal::logger('lyticscdp')->notice('Lytics tag is disabled.');
+      \Drupal::logger('lytics')->notice('Lytics tag is disabled.');
     }
   }
 }
@@ -50,9 +50,9 @@ function lyticscdp_page_attachments(array &$attachments)
 /**
  * Implements hook_help().
  */
-function lyticscdp_help($route_name, $route_match)
+function lytics_help($route_name, $route_match)
 {
-  if ($route_name == 'help.page.lyticscdp') {
+  if ($route_name == 'help.page.lytics') {
     return '<p>' . new TranslatableMarkup('Provides an overview and integration of analytics functionalities.') . '</p>';
   }
 }
@@ -60,19 +60,19 @@ function lyticscdp_help($route_name, $route_match)
 /**
  * Implements hook_preprocess_HOOK() for page templates.
  */
-function lyticscdp_preprocess_page(&$variables)
+function lytics_preprocess_page(&$variables)
 {
   // Example of how to add a CSS file from the module.
-  $variables['#attached']['library'][] = 'lyticscdp/global-styling';
+  $variables['#attached']['library'][] = 'lytics/global-styling';
 }
 
 /**
  * Implements hook_theme().
  */
-function lyticscdp_theme()
+function lytics_theme()
 {
   return [
-    "lyticscdp_install" => [
+    "lytics_install" => [
       "variables" => [
         "config" => NULL,
       ],
