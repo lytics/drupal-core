@@ -155,11 +155,11 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "js/main.ts"),
-        // style: path.resolve(__dirname, "styles/styles.js"),
+        style: path.resolve(__dirname, "styles/main.scss"),
       },
       output: {
         entryFileNames: (assetInfo) =>
-          assetInfo.name === "style" ? "css/style.css" : `js/[name].js`,
+          assetInfo.name === "style" ? "css/core.css" : `js/[name].js`,
         chunkFileNames: "js/[name].js",
         assetFileNames: (assetInfo) =>
           assetInfo.name === "style" ? "css/[name].[ext]" : `css/[name].[ext]`,

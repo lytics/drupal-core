@@ -1,11 +1,13 @@
+lytics-js:
+  version: 1.0
+  js:
+    js/main.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+
 lytics-styles:
   version: 1.0
   css:
     theme:
-      css/core.css: {}
-# form-assets:
-#   js:
-#     js/password-toggle.js: {}
-#   dependencies:
-#     - core/jquery
-#     - core/drupal
+      css/style.css: {}

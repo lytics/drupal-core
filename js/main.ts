@@ -1,14 +1,12 @@
-declare var Drupal: any;
+// main.ts
 
-interface DrupalBehavior {
-  attach: (context: HTMLElement | Document, settings: any) => void;
+import "./content-recommendation";
+
+// Shared setup that should run before any specific behavior.
+console.log("Lytics module JS initialized.");
+
+// Shared functionality placeholder.
+export function sharedUtility() {
+  console.log("Shared utility function");
 }
-
-const myCustomBehavior: DrupalBehavior = {
-  attach: function (context: HTMLElement | Document, settings: any) {
-    alert("Hello, World!");
-  },
-};
-
-// Attach the behavior.
-Drupal.behaviors.myCustomBehavior = myCustomBehavior;
+sharedUtility();

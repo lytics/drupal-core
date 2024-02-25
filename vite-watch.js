@@ -5,9 +5,7 @@ import { build } from "vite";
 async function viteBuild() {
   try {
     await build({
-      // Your Vite build options here
       outDir: "build",
-      // Include additional Vite config options as needed
     });
     console.log("Build completed.");
   } catch (err) {
@@ -35,19 +33,32 @@ const watchPaths = [
   "phpcs.xml",
 ];
 
-// Initialize chokidar watcher
-const watcher = chokidar.watch(watchPaths, {
-  ignored: /(^|[\/\\])\../, // ignore dotfiles
-  persistent: true,
-});
+// Function to initialize chokidar watcher
+function initializeWatcher() {
+  // Initialize chokidar watcher
+  const watcher = chokidar.watch(watchPaths, {
+    ignored: /(^|[\/\\])\../, // ignore dotfiles
+    persistent: true,
+  });
 
-// Event listeners for the watcher
-watcher
-  .on("change", (path) => {
-    console.log(`File ${path} has been changed. Rebuilding...`);
-    viteBuild();
-  })
-  .on("error", (error) => console.error(`Watcher error: ${error}`))
-  .on("ready", () => console.log("Watching for file changes..."));
+  // Event listeners for the watcher
+  watcher
+    .on("change", (path) => {
+      console.log(`File ${path} has been changed. Rebuilding...`);
+      viteBuild();
+    })
+    .on("error", (error) => console.error(`Watcher error: ${error}`))
+    .on("ready", () => console.log("Watching for file changes..."));
+}
 
-console.log("Starting the watcher...");
+// Perform the initial Vite build
+(async () => {
+  console.log("Performing initial Vite build...");
+  await viteBuild();
+  console.log("Initial Vite build completed.");
+
+  // Start watching for file changes
+  initializeWatcher();
+})();
+
+console.log("Script started. Performing initial Vite build...");

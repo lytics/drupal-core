@@ -30,7 +30,7 @@ class SettingsForm extends ConfigFormBase
     }
 
     $form['apitoken'] = [
-      '#type' => 'password',
+      '#type' => 'textfield',
       '#title' => $this->t('Access Token'),
       '#description' => $this->t('Enter Lytics Access Token. Additional guidance on creating and managing Lytics Access Tokens is available in our <a href=":href" target="_blank">documentation</a>.', [':href' => 'https://docs.lytics.com/docs/access-tokens#creating-a-new-api-token']),
       '#default_value' => $existingToken,

@@ -3,6 +3,17 @@
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
+ * Implements hook_page_attachments_alter().
+ */
+function lytics_page_attachments_alter(array &$attachments)
+{
+  $config = \Drupal::config('lytics.settings');
+  $attachments['#attached']['drupalSettings']['lytics'] = [
+    'account_id' => $config->get('account_id'),
+  ];
+}
+
+/**
  * Implements hook_page_attachments().
  */
 function lytics_page_attachments(array &$attachments)
