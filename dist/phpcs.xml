@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ruleset name="LyticsCDP Coding Standards">
+    <!-- Path to Drupal Coder Sniffer -->
+    <rule ref="Drupal"/>
+    <rule ref="DrupalPractice"/>
+
+    <!-- Directories to scan -->
+    <file>./src</file>
+    <file>./tests</file>
+
+    <!-- Exclude patterns -->
+    <exclude-pattern>*/assets/*</exclude-pattern>
+    <exclude-pattern>README\.md</exclude-pattern>
+    <exclude-pattern>NOTES\.md</exclude-pattern>
+
+    <!-- Specify the PHP version compatibility to check -->
+    <config name="testVersion" value="7.3-"/>
+
+    <!-- Exclude some Drupal sniffs that might not be applicable -->
+    <rule ref="Drupal.Semantics.FunctionT">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Drupal.Commenting.DataTypeNamespace">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Custom modifications can be added here -->
+    <!-- Example: Increase the line length limit -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="150"/>
+        </properties>
+    </rule>
+</ruleset>

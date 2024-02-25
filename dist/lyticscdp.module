@@ -1,0 +1,81 @@
+<?php
+
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+
+/**
+ * Implements hook_page_attachments().
+ */
+function lyticscdp_page_attachments(array &$attachments)
+{
+  $is_admin_route = \Drupal::service('router.admin_context')->isAdminRoute();
+
+  if (!$is_admin_route) {
+    $user = \Drupal::currentUser();
+    $config = \Drupal::config('lyticscdp.settings');
+
+    // If explicitly preventing admin users from being tracked, return early
+    if ($config->get('ignore_admin_users') && $user->hasPermission('manage lyticscdp connection')) {
+      return;
+    }
+
+    if ($config->get('enable_tag')) {
+      // Fetch the tag_config JSON string and decode it to a PHP array
+      $tagConfigJson = $config->get('tag_config') ?: '{}';
+      $tagConfigArray = json_decode($tagConfigJson, TRUE);
+
+      // Add the 'src' key to the array
+      $account_id = $config->get('account_id');
+      $debug_mode = $config->get('debug_mode');
+      $js_file = $debug_mode ? 'latest.js' : 'latest.min.js';
+      $tagConfigArray['src'] = 'https://c.lytics.io/api/tag/' . $account_id . '/' . $js_file;
+
+      // Re-encode the array back to a JSON string
+      $modifiedTagConfigJson = json_encode($tagConfigArray);
+
+      // Pass the modified JSON string to the Twig template
+      $attachments['#attached']['html_head'][] = [
+        [
+          '#type' => 'inline_template',
+          '#template' => "{% include '@lyticscdp/lyticscdp-install.html.twig' with {'config': config|raw} %}",
+          '#context' => ['config' => $modifiedTagConfigJson],
+        ],
+        'lyticscdp_install',
+      ];
+    } else {
+      \Drupal::logger('lyticscdp')->notice('Lytics tag is disabled.');
+    }
+  }
+}
+
+/**
+ * Implements hook_help().
+ */
+function lyticscdp_help($route_name, $route_match)
+{
+  if ($route_name == 'help.page.lyticscdp') {
+    return '<p>' . new TranslatableMarkup('Provides an overview and integration of analytics functionalities.') . '</p>';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for page templates.
+ */
+function lyticscdp_preprocess_page(&$variables)
+{
+  // Example of how to add a CSS file from the module.
+  $variables['#attached']['library'][] = 'lyticscdp/global-styling';
+}
+
+/**
+ * Implements hook_theme().
+ */
+function lyticscdp_theme()
+{
+  return [
+    "lyticscdp_install" => [
+      "variables" => [
+        "config" => NULL,
+      ],
+    ],
+  ];
+}

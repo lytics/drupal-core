@@ -1,0 +1,44 @@
+// main.scss
+
+// Import Core Styles
+@import "core";
+
+// Additional styles or imports go below
+body {
+  background-color: $secondary-color;
+}
+
+.header {
+  @include flex-center;
+  height: 60px;
+  background-color: $primary-color;
+  color: #fff;
+}
+
+.rec-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background: white;
+  padding: 5px;
+  margin-bottom: 20px;
+}
+.rec-item {
+  box-sizing: border-box;
+  flex: 1;
+  padding: 10px;
+}
+.rec-title,
+.rec-description {
+  font-size: 14px;
+  margin-bottom: 5px;
+  word-wrap: break-word;
+}
+.rec-description {
+  font-size: 12px;
+}
+.rec-img {
+  height: auto;
+  margin-bottom: 5px;
+  max-width: 100%;
+}
