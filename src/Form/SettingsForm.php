@@ -23,8 +23,14 @@ class SettingsForm extends ConfigFormBase
     $config = $this->config('lytics.settings');
     $existingToken = $config->get('apitoken');
 
+    // Handle on by default
+    $enableTagDefaultValue = $config->get('enable_tag');
+    if ($enableTagDefaultValue === NULL) {
+      $enableTagDefaultValue = TRUE; // Default to true if not yet configured.
+    }
+
     $form['apitoken'] = [
-      '#type' => 'textfield',
+      '#type' => 'password',
       '#title' => $this->t('Access Token'),
       '#description' => $this->t('Enter Lytics Access Token. Additional guidance on creating and managing Lytics Access Tokens is available in our <a href=":href" target="_blank">documentation</a>.', [':href' => 'https://docs.lytics.com/docs/access-tokens#creating-a-new-api-token']),
       '#default_value' => $existingToken,
@@ -66,7 +72,7 @@ class SettingsForm extends ConfigFormBase
       'enable_tag' => [
         '#type' => 'checkbox',
         '#title' => $this->t('Enable Tag'),
-        '#default_value' => $config->get('enable_tag'),
+        '#default_value' => $enableTagDefaultValue,
         '#description' => $this->t('Enable the Lytics JavaScript tag.'),
       ],
       'debug_mode' => [

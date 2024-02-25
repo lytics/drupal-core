@@ -131,6 +131,10 @@ export default defineConfig({
           dest: ".",
         },
         {
+          src: "config",
+          dest: ".",
+        },
+        {
           src: "js/*.js",
           dest: "./js/",
         },

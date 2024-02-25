@@ -1,0 +1,9 @@
+# config/install/lytics.settings.yml
+apitoken: ""
+enable_tag: true
+debug_mode: false
+ignore_admin_users: false
+tag_config: "{}"
+account_name: ""
+account_id: ""
+domain: ""
