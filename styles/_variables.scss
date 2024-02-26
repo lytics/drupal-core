@@ -1,0 +1,20 @@
+// Breakpoints
+$breakpoints: (
+  xs: 0,
+  sm: 600px,
+  md: 960px,
+  lg: 1280px,
+  xl: 1920px,
+);
+
+// Spacing
+$spacing-unit: 8px;
+
+// Font Sizes
+$font-sizes: (
+  small: 0.875rem,
+  base: 1rem,
+  large: 1.25rem,
+);
+
+// Other variables...

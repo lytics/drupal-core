@@ -11,6 +11,8 @@ declare const Drupal: any;
 
 export interface LyticsSettings {
   account_id: string;
+  content_collection_id: string;
+  number_of_recommendations: number;
 }
 
 export interface DrupalSettings {

@@ -1,0 +1,118 @@
+.container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+
+  @include breakpoint(sm) {
+    max-width: 540px;
+  }
+
+  @include breakpoint(md) {
+    max-width: 720px;
+  }
+
+  // Add other breakpoints...
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.col {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+
+  // Add responsive classes (e.g., .col-md-6)
+}
+
+// Flex Container
+.flex-container {
+  @include flex-display;
+}
+
+// Direction Utilities
+.flex-row {
+  @include flex-direction(row);
+}
+
+.flex-column {
+  @include flex-direction(column);
+}
+
+// Justify Content Utilities
+.justify-start {
+  @include justify-content(flex-start);
+}
+
+.justify-end {
+  @include justify-content(flex-end);
+}
+
+.justify-center {
+  @include justify-content(center);
+}
+
+.justify-between {
+  @include justify-content(space-between);
+}
+
+.justify-around {
+  @include justify-content(space-around);
+}
+
+// Align Items Utilities
+.align-start {
+  @include align-items(flex-start);
+}
+
+.align-end {
+  @include align-items(flex-end);
+}
+
+.align-center {
+  @include align-items(center);
+}
+
+.align-stretch {
+  @include align-items(stretch);
+}
+
+.align-baseline {
+  @include align-items(baseline);
+}
+
+// Flex Wrap Utilities
+.flex-wrap {
+  @include flex-wrap(wrap);
+}
+
+.flex-nowrap {
+  @include flex-wrap(nowrap);
+}
+
+.flex-wrap-reverse {
+  @include flex-wrap(wrap-reverse);
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+// Gap Utilities
+$gap-sizes: (
+  small: $spacing-unit,
+  medium: $spacing-unit * 2,
+  large: $spacing-unit * 3,
+);
+
+@each $name, $size in $gap-sizes {
+  .gap-#{$name} {
+    gap: $size;
+  }
+}
