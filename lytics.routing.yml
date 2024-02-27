@@ -1,7 +1,15 @@
-lytics.settings_form:
-  path: '/admin/config/system/lytics'
+lytics.dashboard:
+  path: "/admin/reports/lytics"
   defaults:
-    _form: '\Drupal\lytics\Form\LyticsSettingsForm'
-    _title: 'Lytics Configuration'
+    _controller: '\Drupal\lytics\Controller\AnalyticsDashboardController::content'
+    _title: "Lytics Dashboard"
   requirements:
-    _permission: 'administer lytics settings'
+    _permission: "view lytics dashboard"
+
+lytics.settings_form:
+  path: "/admin/config/system/lytics"
+  defaults:
+    _form: '\Drupal\lytics\Form\SettingsForm'
+    _title: "Lytics Configuration"
+  requirements:
+    _permission: "manage lytics connection"

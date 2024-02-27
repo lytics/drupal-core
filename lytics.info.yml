@@ -1,6 +1,6 @@
-name: 'Lytics'
+name: "Lytics"
 type: module
-description: 'Integrates Lytics Decision Engine Javascript tag.'
+description: "Install, configure, and elevate experiences with the Lytics Experience Engine."
 package: Custom
 core_version_requirement: ^10
 dependencies:

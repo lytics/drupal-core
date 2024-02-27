@@ -1,0 +1,27 @@
+@mixin generate-spacing-classes {
+  $properties: (
+    margin: m,
+    padding: p,
+  );
+  $directions: (
+    top: t,
+    right: r,
+    bottom: b,
+    left: l,
+    x: x,
+    y: y,
+  );
+  $sizes: (0, 1, 2, 3, 4, 5);
+
+  @each $prop, $abbrev in $properties {
+    @each $dir, $abbrevDir in $directions {
+      @each $size in $sizes {
+        .#{$abbrev}#{$abbrevDir}-#{$size} {
+          #{$prop}-#{$dir}: $spacing-unit * $size !important;
+        }
+      }
+    }
+  }
+}
+
+@include generate-spacing-classes;

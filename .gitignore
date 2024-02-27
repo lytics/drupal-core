@@ -17,3 +17,5 @@ phpunit-result*.cache
 # Ignore IDE
 .vscode
 .idea
+/node_modules/
+/dist/
