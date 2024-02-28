@@ -7,7 +7,7 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
  */
 function lytics_page_attachments_alter(array &$attachments)
 {
-  $config = \Drupal::config('lytics.settings');
+  $config = Drupal::config('lytics.settings');
   $attachments['#attached']['drupalSettings']['lytics'] = [
     'account_id' => $config->get('account_id'),
   ];
@@ -18,11 +18,11 @@ function lytics_page_attachments_alter(array &$attachments)
  */
 function lytics_page_attachments(array &$attachments)
 {
-  $is_admin_route = \Drupal::service('router.admin_context')->isAdminRoute();
+  $is_admin_route = Drupal::service('router.admin_context')->isAdminRoute();
 
   if (!$is_admin_route) {
-    $user = \Drupal::currentUser();
-    $config = \Drupal::config('lytics.settings');
+    $user = Drupal::currentUser();
+    $config = Drupal::config('lytics.settings');
 
     // If explicitly preventing admin users from being tracked, return early
     if ($config->get('ignore_admin_users') && $user->hasPermission('manage lytics connection')) {
@@ -53,7 +53,7 @@ function lytics_page_attachments(array &$attachments)
         'lytics_install',
       ];
     } else {
-      \Drupal::logger('lytics')->notice('Lytics tag is disabled.');
+      Drupal::logger('lytics')->notice('Lytics tag is disabled.');
     }
   }
 }
