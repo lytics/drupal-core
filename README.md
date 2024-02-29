@@ -69,8 +69,6 @@ We welcome contributions to the Lytics Drupal module! To contribute:
 
 For module support, please open an issue on the GitHub project page. For Lytics platform support, contact Lytics customer support directly.
 
-Sync test.
-
 ## License
 
 This project is licensed under the [GPL-2.0-or-later](https://www.gnu.org/licenses/gpl-2.0.html) license. See the LICENSE file in the repository for complete details.
