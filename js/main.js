@@ -1,0 +1,1 @@
+var e=function(){function t(){}return t.attach=function(a,c){t.attached||(t.attached=!0,console.log("Rendering example JS."))},t.attached=!1,t}();Drupal.behaviors.contentRecommendation={attach:e.attach};console.log("Lytics module JS initialized.");function n(){console.log("Shared utility function")}n();

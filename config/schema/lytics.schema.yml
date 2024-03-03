@@ -1,0 +1,28 @@
+lytics.settings:
+  type: config_object
+  label: "Lytics configuration"
+  mapping:
+    apitoken:
+      type: string
+      label: "Access Token"
+    enable_tag:
+      type: boolean
+      label: "Enable Tag"
+    debug_mode:
+      type: boolean
+      label: "Enable Debug Mode"
+    ignore_admin_users:
+      type: boolean
+      label: "Ignore Admin Users"
+    tag_config:
+      type: string
+      label: "Additional Tag Configuration"
+    account_name:
+      type: string
+      label: "Account Name"
+    account_id:
+      type: string
+      label: "Account ID"
+    domain:
+      type: string
+      label: "Domain"

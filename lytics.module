@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function lytics_page_attachments_alter(array &$attachments)
+{
+  $config = Drupal::config('lytics.settings');
+  $attachments['#attached']['drupalSettings']['lytics'] = [
+    'account_id' => $config->get('account_id'),
+  ];
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function lytics_page_attachments(array &$attachments)
+{
+  $is_admin_route = Drupal::service('router.admin_context')->isAdminRoute();
+
+  if (!$is_admin_route) {
+    $user = Drupal::currentUser();
+    $config = Drupal::config('lytics.settings');
+
+    // If explicitly preventing admin users from being tracked, return early
+    if ($config->get('ignore_admin_users') && $user->hasPermission('manage lytics connection')) {
+      return;
+    }
+
+    if ($config->get('enable_tag')) {
+      // Fetch the tag_config JSON string and decode it to a PHP array
+      $tagConfigJson = $config->get('tag_config') ?: '{}';
+      $tagConfigArray = json_decode($tagConfigJson, TRUE);
+
+      // Add the 'src' key to the array
+      $account_id = $config->get('account_id');
+      $debug_mode = $config->get('debug_mode');
+      $js_file = $debug_mode ? 'latest.js' : 'latest.min.js';
+      $tagConfigArray['src'] = 'https://c.lytics.io/api/tag/' . $account_id . '/' . $js_file;
+
+      // Re-encode the array back to a JSON string
+      $modifiedTagConfigJson = json_encode($tagConfigArray);
+
+      // Pass the modified JSON string to the Twig template
+      $attachments['#attached']['html_head'][] = [
+        [
+          '#type' => 'inline_template',
+          '#template' => "{% include '@lytics/lytics-install.html.twig' with {'config': config|raw} %}",
+          '#context' => ['config' => $modifiedTagConfigJson],
+        ],
+        'lytics_install',
+      ];
+    } else {
+      Drupal::logger('lytics')->notice('Lytics tag is disabled.');
+    }
+  }
+}
+
+/**
+ * Implements hook_help().
+ *
+ * Displays help and module information.
+ *
+ * @param string $route_name
+ *   The route name of the current page.
+ * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+ *   The current route match interface.
+ *
+ * @return string
+ *   A localized string containing the help text.
+ */
+function lytics_help($route_name, $route_match)
+{
+  switch ($route_name) {
+    case 'help.page.lytics':
+      return '<h2>' . t('About') . '</h2>'
+        . '<p>' . t('Provides an overview and integration of analytics functionalities.') . '</p>'
+        . '<h2>' . t('Usage') . '</h2>'
+        . '<p>' . t('To configure the Lytics module, navigate to the settings form at Administration > Configuration > System > Lytics settings. Here you can enable the integration, enter your unique Lytics tag ID, and toggle debug mode.') . '</p>';
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for page templates.
+ */
+function lytics_preprocess_page(&$variables)
+{
+  // Example of how to add a CSS file from the module.
+  $variables['#attached']['library'][] = 'lytics/global-styling';
+}
+
+/**
+ * Implements hook_theme().
+ */
+function lytics_theme()
+{
+  return [
+    "lytics_install" => [
+      "variables" => [
+        "config" => NULL,
+      ],
+    ],
+  ];
+}

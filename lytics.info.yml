@@ -1,0 +1,8 @@
+name: "Lytics"
+type: module
+description: "Install, configure, and elevate experiences with the Lytics Experience Engine."
+package: Custom
+core_version_requirement: ^10
+dependencies:
+  - drupal:system
+configure: lytics.settings_form
