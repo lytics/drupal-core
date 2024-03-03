@@ -4,16 +4,6 @@
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
-
-  @include breakpoint(sm) {
-    max-width: 540px;
-  }
-
-  @include breakpoint(md) {
-    max-width: 720px;
-  }
-
-  // Add other breakpoints...
 }
 
 .row {
@@ -27,8 +17,6 @@
   flex-basis: 0;
   flex-grow: 1;
   max-width: 100%;
-
-  // Add responsive classes (e.g., .col-md-6)
 }
 
 // Flex Container
