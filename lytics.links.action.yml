@@ -1,0 +1,5 @@
+entity.lytics_experience_set.add_form:
+  route_name: lytics.manage_web_experiences.add
+  title: "Add Web Experience"
+  appears_on:
+    - lytics.manage_web_experiences

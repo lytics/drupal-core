@@ -13,3 +13,35 @@ lytics.settings_form:
     _title: "Lytics Configuration"
   requirements:
     _permission: "manage lytics connection"
+
+system.admin_structure_lytics:
+  path: "/admin/structure/lytics"
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: "Lytics Experiences"
+  requirements:
+    _permission: "manage lytics connection"
+
+lytics.manage_web_experiences:
+  path: "/admin/structure/lytics_experiences/manage"
+  defaults:
+    _title: "Manage Lytics Web Experiences"
+    _controller: '\Drupal\lytics\Controller\LyticsExperienceController::manageExperiencesListPage'
+  requirements:
+    _permission: "manage lytics connection"
+
+lytics.manage_web_experiences.add:
+  path: "/admin/structure/lytics_experiences/manage/edit"
+  defaults:
+    _form: '\Drupal\lytics\Form\ExperienceManagerForm'
+    _title: "Experience Manager"
+  requirements:
+    _permission: "manage lytics connection"
+
+lytics.manage_web_experiences.edit:
+  path: "/admin/structure/lytics_experiences/manage/{lytics_experience}/edit"
+  defaults:
+    _form: '\Drupal\lytics\Form\ExperienceManagerForm'
+    _title: "Experience Manager"
+  requirements:
+    _permission: "manage lytics connection"

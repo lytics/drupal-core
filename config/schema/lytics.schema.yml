@@ -26,3 +26,26 @@ lytics.settings:
     domain:
       type: string
       label: "Domain"
+# lytics.experience:
+#   type: mapping
+#   label: "Lytics Experience"
+#   mapping:
+#     id:
+#       type: serial
+#       label: "ID"
+
+#     title:
+#       type: string
+#       label: "Title"
+
+#     description:
+#       type: text
+#       label: "Description"
+
+#     status:
+#       type: boolean
+#       label: "Status"
+
+#     json_entry:
+#       type: text
+#       label: "JSON Entry"

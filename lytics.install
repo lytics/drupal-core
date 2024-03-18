@@ -1,0 +1,37 @@
+<?php
+
+use Drupal\Core\Database\Schema\Blueprint;
+use Drupal\Core\Database\Schema\Schema;
+
+/**
+ * Implements hook_schema().
+ */
+function lytics_schema()
+{
+  $schema['lytics_experience'] = [
+    'description' => 'The base table for Lytics experiences.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique experience ID.',
+      ],
+      'title' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'description' => 'Experience title.',
+      ],
+      'description' => [
+        'type' => 'text',
+        'description' => 'Experience description.',
+      ],
+      'configuration' => [
+        'type' => 'text',
+        'description' => 'Experience configuration.',
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  return $schema;
+}

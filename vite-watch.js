@@ -1,5 +1,6 @@
 import chokidar from "chokidar";
 import { build } from "vite";
+import { exec } from "child_process";
 
 // Function to perform a Vite build
 async function viteBuild() {
@@ -8,6 +9,21 @@ async function viteBuild() {
       outDir: "build",
     });
     console.log("Build completed.");
+
+    const drushLoc = process.env.DRUSHLOC;
+    if (!drushLoc) {
+      console.error("No Drush location provided. Skipping cache clear.");
+      return;
+    }
+
+    exec(`${drushLoc} cr`, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error running Drush: ${error}`);
+        return;
+      }
+      console.log(`Drush output: ${stdout}`);
+      console.error(`Drush error: ${stderr}`);
+    });
   } catch (err) {
     console.error("Error during build:", err);
   }

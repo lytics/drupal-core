@@ -14,6 +14,14 @@ lytics-inline-recommendation:
     - core/drupal
     - core/drupalSettings
 
+lytics-experience-wizard:
+  version: 1.0
+  js:
+    js/experienceWizard.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+
 lytics-styles:
   version: 1.0
   css:

@@ -11,3 +11,17 @@ lytics.admin_settings:
   parent: system.admin_config_system
   route_name: lytics.settings_form
   weight: 100
+
+lytics.experiences_overview:
+  title: "Lytics Experiences"
+  description: "Administer Lytics Experiences."
+  route_name: system.admin_structure_lytics
+  parent: system.admin_structure
+  weight: 98
+
+entity.lytics_experience_set.collection:
+  title: "Manage Web Experiences"
+  route_name: lytics.manage_web_experiences
+  description: "List all configured Experiences."
+  parent: lytics.experiences_overview
+  weight: 99

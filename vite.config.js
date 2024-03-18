@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
 import path, { resolve } from "path";
 import typescript from "@rollup/plugin-typescript";
 import { viteStaticCopy } from "vite-plugin-static-copy";
@@ -64,6 +65,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    react(),
     compileSCSS(),
     typescript({
       tsconfig: "./tsconfig.json",
@@ -155,6 +157,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: path.resolve(__dirname, "js/main.ts"),
+        experienceWizard: path.resolve(__dirname, "js/experience-wizard.tsx"),
         inlineRecommendation: path.resolve(
           __dirname,
           "js/inline-recommendation.ts"
