@@ -4,7 +4,6 @@ export const CancelShow: Field = {
   id: "cancelShow",
   label: "Show Cancel Button",
   description: "Whether or not to show the Cancel button",
-  order: 8,
   type: "boolean",
   method: "checkbox",
   required: false,

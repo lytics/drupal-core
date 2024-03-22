@@ -49,17 +49,13 @@ import {
   HideAfterActionCancelHideCount,
   HideAfterActionCancelHideDuration,
 } from "./fields/displayConditions/hideAfterAction";
+import { URLContains } from "./fields/displayConditions/urlContains";
 
 export interface Field {
   id: string;
   label: string;
   description: string;
-  type:
-    | typeof String
-    | typeof Number
-    | typeof Boolean
-    | typeof Array
-    | typeof Object;
+  type: string;
   method: string;
   options?: SelectOption[];
   required?: boolean;
@@ -130,6 +126,7 @@ export const hideAfterActionConfirmHideDuration =
 export const hideAfterActionCancelHideCount = HideAfterActionCancelHideCount;
 export const hideAfterActionCancelHideDuration =
   HideAfterActionCancelHideDuration;
+export const urlContains = URLContains;
 
 //   urlContains array
 //        exclude

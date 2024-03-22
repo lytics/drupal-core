@@ -53,6 +53,7 @@ import {
   hideAfterActionConfirmHideDuration,
   hideAfterActionCancelHideCount,
   hideAfterActionCancelHideDuration,
+  urlContains,
 } from "./data/pfa-fields";
 
 import { TextAreaInput } from "./components/form/textarea";
@@ -61,10 +62,14 @@ import { CheckboxInput } from "./components/form/checkbox";
 import { SelectInput } from "./components/form/select";
 import { ColorInput } from "./components/form/color";
 import { SelectMultipleInput } from "./components/form/selectMultiple";
+import {
+  URLContainsBuilder,
+  URLContainsItem,
+} from "./components/form/urlContains";
 
 const ExperienceWizard: React.FC = () => {
   const [formValues, setFormValues] = useState<{
-    [key: string]: string;
+    [key: string]: any;
   }>({});
   const [formFieldVisibility, setFormFieldVisibility] = useState<{
     [key: string]: boolean;
@@ -117,9 +122,18 @@ const ExperienceWizard: React.FC = () => {
     hideAfterActionConfirmHideDuration,
     hideAfterActionCancelHideCount,
     hideAfterActionCancelHideDuration,
+    urlContains,
   ];
 
-  const handleChange = (fieldId: string, value: string) => {
+  const tempChange = (
+    fieldId: string,
+    value: URLContainsItem[]
+  ): URLContainsItem[] => {
+    console.log("here");
+    return value;
+  };
+
+  const handleChange = (fieldId: string, value: any) => {
     setFormValues((prevFormValues) => ({
       ...prevFormValues,
       [fieldId]: value,
@@ -222,8 +236,6 @@ const ExperienceWizard: React.FC = () => {
         [id]: false,
       }));
     });
-
-    console.log("checking", fieldID, value);
 
     let valuesToCheck: string[] = [];
     if (field.type === "array") {
@@ -404,6 +416,18 @@ const ExperienceWizard: React.FC = () => {
                 handleChange={handleChange}
               />
             </Stack>
+          </Stack>
+        )}
+
+        {/* urlContains */}
+        {isFieldSet(type.id) && (
+          <Stack spacing={2}>
+            <URLContainsBuilder
+              field={urlContains}
+              visible={isFieldSet(type.id)}
+              formValues={formValues}
+              handleChange={handleChange}
+            />
           </Stack>
         )}
 
