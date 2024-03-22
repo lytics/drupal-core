@@ -1,35 +1,44 @@
-import { TextField, FormControl, InputLabel } from "@mui/material";
-import { Field } from "../../form-fields";
 import React from "react";
+import { TextField } from "@mui/material";
+import { Field } from "../../data/pfa-fields";
 
 export interface TextAreaProps {
   field: Field;
+  visible: boolean;
   formValues: { [key: string]: string };
   handleChange: (id: string, value: string) => void;
 }
 
 export const TextAreaInput: React.FC<TextAreaProps> = (textAreaProps) => {
-  const { field, formValues, handleChange } = textAreaProps;
+  const { field, formValues, handleChange, visible } = textAreaProps;
 
   return (
-    <FormControl
-      id={`field-${field.id}`}
-      key={field.id}
-      variant="standard"
-      className={field.hidden ? "hidden" : ""}
-    >
-      <InputLabel shrink htmlFor={field.id}>
-        {field.label}
-      </InputLabel>
-      <TextField
-        key={field.id}
-        id={field.id}
-        value={formValues[field.id] || ""}
-        onChange={(e) => handleChange(field.id, e.target.value)}
-        required={field.required}
-        multiline
-        rows={4}
-      />
-    </FormControl>
+    <>
+      {visible && (
+        <TextField
+          key={field.id}
+          id={field.id}
+          label={field.label}
+          value={formValues[field.id] || ""}
+          onChange={(e) => handleChange(field.id, e.target.value)}
+          required={field.required}
+          helperText={field.description || undefined}
+          multiline
+          rows={4}
+          sx={{
+            "& .MuiInputBase-multiline": {
+              backgroundColor: "#FFF",
+            },
+            "& .MuiInputBase-input": {
+              backgroundColor: "#FFF",
+              "&:focus": {
+                boxShadow: "none",
+                borderColor: "none",
+              },
+            },
+          }}
+        />
+      )}{" "}
+    </>
   );
 };

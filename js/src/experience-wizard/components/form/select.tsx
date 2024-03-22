@@ -1,61 +1,69 @@
 import React from "react";
 import {
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
-  Select as MuiSelect,
+  Select,
 } from "@mui/material";
-import { alpha, styled } from "@mui/material/styles";
-import { Field } from "../../form-fields";
+import { Field } from "../../data/pfa-fields";
 
 export interface SelectInputProps {
   field: Field;
+  visible: boolean;
+  position: string;
   formValues: { [key: string]: string };
   handleChange: (id: string, value: string) => void;
 }
 
-export const SelectInputStyled = styled(MuiSelect)(({ theme }) => ({
-  "& .MuiSelect-select": {
-    borderRadius: 4,
-    position: "relative",
-    backgroundColor: "#FFF",
-    border: "1px solid",
-    borderColor: "#E0E3E7",
-    fontSize: 16,
-    padding: "10px 12px",
-    "&:focus": {
-      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-      borderColor: theme.palette.primary.main,
-    },
-  },
-}));
-
 export const SelectInput: React.FC<SelectInputProps> = (selectInputProps) => {
-  const { field, formValues, handleChange } = selectInputProps;
+  const { field, formValues, handleChange, position, visible } =
+    selectInputProps;
+
+  const renderValue = (selected: string) => {
+    if (!selected) {
+      return <em>Placeholder</em>;
+    }
+    return selected;
+  };
 
   return (
-    <FormControl
-      id={`field-${field.id}`}
-      key={field.id}
-      variant="standard"
-      className={field.hidden ? "hidden" : ""}
-    >
-      <InputLabel shrink htmlFor={field.id}>
-        {field.label}
-      </InputLabel>
-      <SelectInputStyled
-        labelId={`${field.id}-label`}
-        id={field.id}
-        value={formValues[field.id] || ""}
-        onChange={(e) => handleChange(field.id, e.target.value as string)}
-        required={field.required}
-      >
-        {field.options?.map((option) => (
-          <MenuItem key={option} value={option}>
-            {option}
-          </MenuItem>
-        ))}
-      </SelectInputStyled>
-    </FormControl>
+    <>
+      {visible && (
+        <FormControl fullWidth>
+          <InputLabel id={`${field.id}-label`}>{field.label}</InputLabel>
+          <Select
+            labelId={`${field.id}-label`}
+            id={field.id}
+            label={field.label}
+            value={formValues[field.id] || ""}
+            onChange={(e) => handleChange(field.id, e.target.value as string)}
+            required={field.required}
+            renderValue={(selected) => {
+              const selectedOption = field.options?.find(
+                (option) => option.value === selected
+              );
+              return selectedOption?.label || "";
+            }}
+            sx={{
+              "& .MuiSelect-select": {
+                backgroundColor: "#FFF",
+                "&:focus": {
+                  boxShadow: "none",
+                  borderColor: "none",
+                },
+              },
+            }}
+          >
+            {field.options?.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText>{field.description || undefined}</FormHelperText>
+        </FormControl>
+      )}
+    </>
   );
 };

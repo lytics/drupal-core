@@ -53,6 +53,10 @@ class ExperienceManagerForm extends FormBase
    */
   public function buildForm(array $form, FormStateInterface $form_state, LyticsExperience $lytics_experience = NULL)
   {
+    $config = \Drupal::config('lytics.settings');
+    $accountID = $config->get('account_id');
+    $apitoken = $config->get('apitoken');
+
     // Form elements definition.
     $form['id'] = [
       '#type' => 'hidden',
@@ -74,23 +78,6 @@ class ExperienceManagerForm extends FormBase
       '#default_value' => $lytics_experience ? $lytics_experience->getDescription() : '',
     ];
 
-    $form['experience_wizard'] = [
-      '#markup' => '<div id="experience-wizard-wrapper"></div>',
-      '#attached' => [
-        'library' => [
-          'lytics/lytics-experience-wizard',
-          'lytics/lytics-styles',
-        ],
-        'drupalSettings' => [
-          'lytics' => [
-            'experienceWizard' => [
-              'type' => 'module'
-            ]
-          ]
-        ],
-      ],
-    ];
-
     $form['configuration'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Configuration'),
@@ -100,6 +87,25 @@ class ExperienceManagerForm extends FormBase
         [$this, 'validateJson'],
       ],
       '#default_value' => $lytics_experience ? $lytics_experience->getConfiguration() : '',
+    ];
+
+    $form['experience_wizard'] = [
+      '#markup' => '<div id="experience-wizard-wrapper"></div>',
+      '#attached' => [
+        'library' => [
+          'lytics/lytics-experience-wizard',
+          'lytics/lytics-styles',
+        ],
+        'drupalSettings' => [
+          'lytics' => [
+            'account_id' => $accountID,
+            'access_token' => $apitoken,
+            // 'experienceWizard' => [
+            //   'type' => 'module',
+            // ],
+          ]
+        ],
+      ],
     ];
 
     $form['submit'] = [

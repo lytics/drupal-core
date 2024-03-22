@@ -1,53 +1,59 @@
 import React from "react";
-import { FormControl, InputLabel, InputBase } from "@mui/material";
-import { alpha, styled } from "@mui/material/styles";
-import { Field } from "../../form-fields";
+import { TextField } from "@mui/material";
+import { Field } from "../../data/pfa-fields";
 
 export interface TextInputProps {
   field: Field;
+  visible: boolean;
+  inputProps?: any;
+  size?: "small" | "medium" | undefined;
   formValues: { [key: string]: string };
   handleChange: (id: string, value: string) => void;
 }
 
-export const TextInputStyled = styled(InputBase)(({ theme }) => ({
-  "label + &": {
-    marginTop: theme.spacing(3),
-  },
-  "& .MuiInputBase-input": {
-    borderRadius: 4,
-    position: "relative",
-    backgroundColor: "#FFF",
-    border: "1px solid",
-    borderColor: "#E0E3E7",
-    fontSize: 16,
-    padding: "10px 12px",
-    "&:focus": {
-      boxShadow: `${alpha(theme.palette.primary.main, 0.25)} 0 0 0 0.2rem`,
-      borderColor: theme.palette.primary.main,
-    },
-  },
-}));
-
 export const TextInput: React.FC<TextInputProps> = (textInputProps) => {
-  const { field, formValues, handleChange } = textInputProps;
+  const { field, formValues, handleChange, visible, size, inputProps } =
+    textInputProps;
+
+  if (visible) {
+    // console.log("field", field.id, visible);
+  }
+
+  const handleInputChange = (fieldId, value) => {
+    let cleansedValue = value;
+
+    if (inputProps) {
+      cleansedValue = cleansedValue.toLowerCase().replace(/[^a-z0-9_-]/g, "");
+    }
+
+    handleChange(fieldId, cleansedValue);
+  };
 
   return (
-    <FormControl
-      id={`field-${field.id}`}
-      key={field.id}
-      variant="standard"
-      className={field.hidden ? "hidden" : ""}
-    >
-      <InputLabel shrink htmlFor={field.id}>
-        {field.label}
-      </InputLabel>
-      <TextInputStyled
-        key={field.id}
-        id={field.id}
-        value={formValues[field.id] || ""}
-        onChange={(e) => handleChange(field.id, e.target.value)}
-        required={field.required}
-      />
-    </FormControl>
+    <>
+      {visible && (
+        <TextField
+          variant="outlined"
+          label={field.label}
+          key={field.id}
+          id={field.id}
+          size={size}
+          inputProps={inputProps}
+          value={formValues[field.id] || ""}
+          onChange={(e) => handleInputChange(field.id, e.target.value)}
+          required={field.required}
+          helperText={field.description || undefined}
+          sx={{
+            "& .MuiInputBase-input": {
+              backgroundColor: "#FFF",
+              "&:focus": {
+                boxShadow: "none",
+                borderColor: "none",
+              },
+            },
+          }}
+        />
+      )}
+    </>
   );
 };

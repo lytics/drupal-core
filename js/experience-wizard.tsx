@@ -1,27 +1,46 @@
-// main.ts
+// // main.ts
 
-// import "./src/experience-wizard/experience-wizard";
+// import React from "react";
+// import ReactDOM from "react-dom";
+// import { Box } from "@mui/material";
+// import ExperienceWizard from "./src/experience-wizard/mainForm";
+// import { DrupalSettings } from "./types/drupalTypes";
 
-// // Shared setup that should run before any specific behavior.
-// console.log("Lytics experience wizard initialized.");
+// // Ensure Drupal and drupalSettings are recognized
+// declare const Drupal: any;
+// declare const drupalSettings: any;
 
-// // lytics-experience-wizard.js (ES module format)
-// export function initializeWizard() {
-//   console.log("Winning");
-// }
+// const accountId = settings?.lytics?.account_id;
 
-// initializeWizard();
+// const HelloWorld = () => {
 
-// lytics-experience-wizard.js (ES module format)
+//   return (
+//     <Box p={2} bgcolor="#F7F7F7">
+//       <ExperienceWizard />
+//     </Box>
+//   );
+// };
 
-// Import React and ReactDOM
+// ReactDOM.render(
+//   <HelloWorld />,
+//   document.getElementById("experience-wizard-wrapper")
+// );
+
 import React from "react";
 import ReactDOM from "react-dom";
 import { Box } from "@mui/material";
 import ExperienceWizard from "./src/experience-wizard/mainForm";
+import { DrupalSettings } from "./types/drupalTypes";
 
-// Define a simple React component
+// Declare Drupal and drupalSettings
+declare const Drupal: any;
+declare const drupalSettings: DrupalSettings;
+
 const HelloWorld = () => {
+  const accountId = drupalSettings?.lytics?.account_id;
+  const accessToken = drupalSettings?.lytics?.access_token;
+
+  console.log("settings", accessToken, accountId);
   return (
     <Box p={2} bgcolor="#F7F7F7">
       <ExperienceWizard />
@@ -29,7 +48,6 @@ const HelloWorld = () => {
   );
 };
 
-// Render the component to the DOM
 ReactDOM.render(
   <HelloWorld />,
   document.getElementById("experience-wizard-wrapper")
