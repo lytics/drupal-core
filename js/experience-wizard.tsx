@@ -39,11 +39,16 @@ declare const drupalSettings: DrupalSettings;
 const HelloWorld = () => {
   const accountId = drupalSettings?.lytics?.account_id;
   const accessToken = drupalSettings?.lytics?.access_token;
+  const pathforaConfig = drupalSettings?.lytics?.pathfora_config;
 
   console.log("settings", accessToken, accountId);
   return (
-    <Box p={2} bgcolor="#F7F7F7">
-      <ExperienceWizard />
+    <Box p={0} bgcolor="#FFF">
+      <ExperienceWizard
+        accountId={accountId || ""}
+        accessToken={accessToken || ""}
+        pathforaConfig={pathforaConfig || ""}
+      />
     </Box>
   );
 };

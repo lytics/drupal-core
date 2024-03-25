@@ -25,9 +25,14 @@ function lytics_schema()
         'type' => 'text',
         'description' => 'Experience description.',
       ],
-      'configuration' => [
+      'config' => [
         'type' => 'text',
         'description' => 'Experience configuration.',
+      ],
+      'status' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'description' => 'Experience status.',
       ],
     ],
     'primary key' => ['id'],

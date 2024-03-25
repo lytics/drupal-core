@@ -14,6 +14,7 @@ export interface LyticsSettings {
   access_token: string;
   content_collection_id: string;
   number_of_recommendations: number;
+  pathfora_config: string;
 }
 
 export interface DrupalSettings {

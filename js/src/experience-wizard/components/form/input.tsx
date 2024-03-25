@@ -44,6 +44,7 @@ export const TextInput: React.FC<TextInputProps> = (textInputProps) => {
           required={field.required}
           helperText={field.description || undefined}
           sx={{
+            width: "100%",
             "& .MuiInputBase-input": {
               backgroundColor: "#FFF",
               "&:focus": {

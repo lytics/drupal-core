@@ -30,6 +30,16 @@ export const SelectMultipleInput: React.FC<SelectMultipleInputProps> = (
   useEffect(() => {
     if (formValues[field.id]) {
       setActiveConditions(formValues[field.id].split(","));
+
+      // // get all of the keys in the object if it exists
+      // const activeKeys = Object.keys(formValues[field.id]);
+
+      // // ensure each of hte keys has a value and not an empty string or object
+      // const filteredKeys = activeKeys.filter(
+      //   (key) => formValues[field.id][key] !== ""
+      // );
+
+      // setActiveConditions(filteredKeys);
     }
   }, [formValues]);
 
@@ -71,6 +81,7 @@ export const SelectMultipleInput: React.FC<SelectMultipleInputProps> = (
             //     </MenuItem>
             //   ))}
             sx={{
+              width: "100%",
               "& .MuiSelect-select": {
                 backgroundColor: "#FFF",
                 "&:focus": {

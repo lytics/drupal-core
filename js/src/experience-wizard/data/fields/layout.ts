@@ -59,7 +59,6 @@ export const Layout: Field = {
   id: "layout",
   label: "Layout",
   description: "The layout of the component",
-  order: 2,
   type: "string",
   method: "select",
   required: true,

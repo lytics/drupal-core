@@ -46,6 +46,7 @@ export const SelectInput: React.FC<SelectInputProps> = (selectInputProps) => {
               return selectedOption?.label || "";
             }}
             sx={{
+              width: "100%",
               "& .MuiSelect-select": {
                 backgroundColor: "#FFF",
                 "&:focus": {

@@ -77,6 +77,11 @@ class LyticsExperience extends ContentEntityBase
         'weight' => 2,
       ]);
 
+    $fields['status'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Status'))
+      ->setDescription(t('The status of the Lytics Experience entity.'))
+      ->setDefaultValue('draft');
+
     return $fields;
   }
 
@@ -105,12 +110,23 @@ class LyticsExperience extends ContentEntityBase
   /**
    * Sets the configuration of the LyticsExperience entity.
    *
-   * @param string $configuration
+   * @param string $config
    *   The configuration of the entity.
    */
-  public function setConfiguration($configuration)
+  public function setConfiguration($config)
   {
-    $this->set('config', $configuration);
+    $this->set('config', $config);
+  }
+
+  /**
+   * Sets the status of the LyticsExperience entity.
+   * 
+   * @param string $status
+   *  The status of the entity.
+   */
+  public function setStatus($status)
+  {
+    $this->set('status', $status);
   }
 
   /**
@@ -144,5 +160,16 @@ class LyticsExperience extends ContentEntityBase
   public function getConfiguration()
   {
     return $this->get('config')->value;
+  }
+
+  /**
+   * Gets the status of the LyticsExperience entity.
+   *
+   * @return string
+   *   The status of the entity.
+   */
+  public function getStatus()
+  {
+    return $this->get('status')->value;
   }
 }

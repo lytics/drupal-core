@@ -5,12 +5,13 @@ import { Field } from "../../data/pfa-fields";
 export interface TextAreaProps {
   field: Field;
   visible: boolean;
+  rows?: number;
   formValues: { [key: string]: string };
   handleChange: (id: string, value: string) => void;
 }
 
 export const TextAreaInput: React.FC<TextAreaProps> = (textAreaProps) => {
-  const { field, formValues, handleChange, visible } = textAreaProps;
+  const { field, formValues, handleChange, visible, rows } = textAreaProps;
 
   return (
     <>
@@ -24,8 +25,9 @@ export const TextAreaInput: React.FC<TextAreaProps> = (textAreaProps) => {
           required={field.required}
           helperText={field.description || undefined}
           multiline
-          rows={4}
+          rows={rows || 4}
           sx={{
+            width: "100%",
             "& .MuiInputBase-multiline": {
               backgroundColor: "#FFF",
             },

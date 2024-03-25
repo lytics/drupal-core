@@ -21,11 +21,10 @@ export const CheckboxInput: React.FC<CheckboxInputProps> = (textInputProps) => {
     <>
       {visible && (
         <FormControlLabel
-          value="start"
+          value="end"
           control={
             <Checkbox
               id={field.id}
-              aria-label="test"
               checked={formValues[field.id] === "true"}
               onChange={(e) =>
                 handleChange(field.id, e.target.checked.toString())
@@ -34,7 +33,7 @@ export const CheckboxInput: React.FC<CheckboxInputProps> = (textInputProps) => {
             />
           }
           label={field.label}
-          labelPlacement="start"
+          labelPlacement="end"
         />
       )}
     </>

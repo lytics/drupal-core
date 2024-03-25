@@ -97,11 +97,5 @@ export const DisplayConditions: Field = {
       ],
     },
   ],
-  render: "config.layout",
+  render: "details.displayConditions",
 };
-
-// export const LayoutWithOptions: (type: string) => Field = (type: string) => {
-//   let payload = Layout;
-//   payload.options = getSelectOptions(type);
-//   return payload;
-// };

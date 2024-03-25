@@ -57,6 +57,13 @@ class ExperienceManagerForm extends FormBase
     $accountID = $config->get('account_id');
     $apitoken = $config->get('apitoken');
 
+    // dump lytics_experience values to see what is available
+    // if ($lytics_experience) {
+    //   var_dump($lytics_experience->getTitle());
+    //   var_dump($lytics_experience->getDescription());
+    //   var_dump($lytics_experience->getConfiguration());
+    // }
+
     // Form elements definition.
     $form['id'] = [
       '#type' => 'hidden',
@@ -64,21 +71,27 @@ class ExperienceManagerForm extends FormBase
     ];
 
     $form['title'] = [
-      '#type' => 'textfield',
+      '#type' => 'hidden',
       '#title' => $this->t('Title'),
       '#required' => TRUE,
       '#default_value' => $lytics_experience ? $lytics_experience->getTitle() : '',
+      '#attributes' => [
+        'id' => 'edit-title',
+      ],
     ];
 
     $form['description'] = [
-      '#type' => 'textarea',
+      '#type' => 'hidden',
       '#title' => $this->t('Description'),
       '#rows' => 2,
       '#required' => FALSE,
       '#default_value' => $lytics_experience ? $lytics_experience->getDescription() : '',
+      '#attributes' => [
+        'id' => 'edit-description',
+      ],
     ];
 
-    $form['configuration'] = [
+    $form['config'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Configuration'),
       '#required' => FALSE,
@@ -87,6 +100,9 @@ class ExperienceManagerForm extends FormBase
         [$this, 'validateJson'],
       ],
       '#default_value' => $lytics_experience ? $lytics_experience->getConfiguration() : '',
+      '#attributes' => [
+        'id' => 'edit-configuration',
+      ],
     ];
 
     $form['experience_wizard'] = [
@@ -100,6 +116,7 @@ class ExperienceManagerForm extends FormBase
           'lytics' => [
             'account_id' => $accountID,
             'access_token' => $apitoken,
+            'pathfora_config' => $lytics_experience ? $lytics_experience->getConfiguration() : '',
             // 'experienceWizard' => [
             //   'type' => 'module',
             // ],
@@ -137,19 +154,19 @@ class ExperienceManagerForm extends FormBase
     $values = $form_state->getValues();
 
     // Validate and encode the configuration data to JSON.
-    $configuration_json = $values['configuration'];
-    $decoded_configuration = Json::decode($configuration_json);
-    if ($decoded_configuration === null) {
-      // Configuration data is not valid JSON.
-      $this->messenger->addError($this->t('The configuration must be valid JSON.'));
-      return;
-    }
+    // $configuration_json = $values['configuration'];
+    // $decoded_configuration = Json::decode($configuration_json);
+    // if ($decoded_configuration === null) {
+    //   // Configuration data is not valid JSON.
+    //   $this->messenger->addError($this->t('The configuration must be valid JSON.'));
+    //   return;
+    // }
 
     // If an entity ID is present, load the entity for editing; otherwise, create a new one.
     $entity = !empty($values['id']) ? LyticsExperience::load($values['id']) : LyticsExperience::create();
     $entity->setTitle($values['title']);
     $entity->setDescription($values['description']);
-    $entity->setConfiguration($configuration_json);
+    $entity->setConfiguration($values['config']);
     $entity->save();
 
     // Use messenger service to display a success message.
