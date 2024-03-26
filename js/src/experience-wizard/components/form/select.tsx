@@ -7,6 +7,7 @@ import {
   Select,
 } from "@mui/material";
 import { Field } from "../../data/pfa-fields";
+import { helperTextStyles } from "../styles/inputLabel";
 
 export interface SelectInputProps {
   field: Field;
@@ -62,7 +63,13 @@ export const SelectInput: React.FC<SelectInputProps> = (selectInputProps) => {
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText>{field.description || undefined}</FormHelperText>
+          <FormHelperText
+            sx={{
+              ...helperTextStyles,
+            }}
+          >
+            {field.description || undefined}
+          </FormHelperText>
         </FormControl>
       )}
     </>

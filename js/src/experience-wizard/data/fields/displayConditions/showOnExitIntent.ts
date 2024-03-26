@@ -1,13 +1,26 @@
-import { Field } from "../../pfa-fields";
+import { Field, SelectOption } from "../../pfa-fields";
+
+const OptionTrue: SelectOption = {
+  label: "Yes",
+  value: "true",
+  type: "boolean",
+};
+
+const OptionFalse: SelectOption = {
+  label: "No",
+  value: "false",
+  type: "boolean",
+};
 
 export const ShowOnExitIntent: Field = {
   id: "showOnExitIntent",
-  label: "Wait to show experience (seconds)?",
+  label: "Trigger experience when the visitor shows intent to exit?",
   description:
-    "Only show the experience when the visitor begins to exit the page.",
+    "When enabled, you experience will only be shown when the visitor's mouse browsers back buttons and url controls.",
   type: "boolean",
-  method: "input",
+  method: "select",
   required: false,
+  options: [OptionTrue, OptionFalse],
   hidden: true,
   render: "config.displayConditions.showOnExitIntent",
 };

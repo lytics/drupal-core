@@ -23,7 +23,7 @@ export const TextColor: Field = {
 };
 
 export const HeadlineColor: Field = {
-  id: "headlineColorColor",
+  id: "headlineColor",
   label: "Headline Color",
   description: "The headline color of the message",
   type: "string",

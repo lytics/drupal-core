@@ -2,9 +2,9 @@ import { Field } from "../../pfa-fields";
 
 export const ShowDelay: Field = {
   id: "showDelay",
-  label: "Wait to show experience (seconds)?",
+  label: "Wait (seconds) before showing experience?",
   description:
-    "Wait a certain number of seconds before showing the experience to the visitor.",
+    "Define the number of seconds that must elapse before the experience will be surfaced.",
   type: "number",
   method: "input",
   required: false,

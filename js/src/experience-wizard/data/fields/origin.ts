@@ -28,7 +28,7 @@ export const Origin: Field = {
   id: "origin",
   label: "Origin",
   description:
-    "Origin is the direction from which the the experience will slide in.",
+    "Where will the experience enter the screen from on its way to the final position.",
   type: "string",
   method: "select",
   required: false,

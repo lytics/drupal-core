@@ -2,9 +2,10 @@ import { Field } from "../../pfa-fields";
 
 export const ScrollPercentageToDisplay: Field = {
   id: "scrollPercentageToDisplay",
-  label: "Percentage of page scrolled before displaying?",
+  label:
+    "Wait for visitor to scroll (0-100)% of the page before showing experience?",
   description:
-    "Display the experience only after the visitor has scrolled down past a certain percentage of the page.",
+    "Define the percentage of the page that must be scrolled to before showing the experience.",
   type: "number",
   method: "input",
   required: false,

@@ -66,21 +66,15 @@ export const Layout: Field = {
   dependencies: [
     {
       value: "modal",
-      fieldsToShow: ["variant", "image", "positionSelector"],
+      fieldsToShow: ["variant", "positionSelector"],
     },
     {
       value: "slideout",
-      fieldsToShow: [
-        "variant",
-        "image",
-        "position",
-        "positionSelector",
-        "origin",
-      ],
+      fieldsToShow: ["variant", "position", "positionSelector", "origin"],
     },
     {
       value: "bar",
-      fieldsToShow: ["variant", "image", "position", "positionSelector"],
+      fieldsToShow: ["variant", "position", "positionSelector"],
     },
     {
       value: "button",
@@ -88,7 +82,7 @@ export const Layout: Field = {
     },
     {
       value: "inline",
-      fieldsToShow: ["variant", "image", "positionSelector"],
+      fieldsToShow: ["variant", "positionSelector"],
     },
   ],
   render: "config.layout",

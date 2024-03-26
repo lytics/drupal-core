@@ -2,9 +2,9 @@ import { Field } from "../../pfa-fields";
 
 export const PageVisits: Field = {
   id: "pageVisits",
-  label: "Require previous page visits?",
+  label: "Require (number) of page visits before showing experience?",
   description:
-    "Display the experience only after the visitor has visited a certain number of pages.",
+    "Define the total number of pages a visitor must have viewed before the experience will be surfaced.",
   type: "number",
   method: "input",
   required: false,

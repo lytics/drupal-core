@@ -2,9 +2,9 @@ import { Field } from "../../pfa-fields";
 
 export const URLContains: Field = {
   id: "urlContains",
-  label: "Hide experience after (seconds)?",
+  label: "URL Contains",
   description:
-    "Automatically hide the experience after a certain number of seconds have elapsed.",
+    "Show the experience only when the URL meets the requirements of defined match conditions.",
   type: "array",
   method: "input",
   required: false,

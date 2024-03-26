@@ -1,10 +1,20 @@
 import { Field } from "../pfa-fields";
+import {
+  BackgroundColor,
+  HeadlineColor,
+  TextColor,
+  CloseColor,
+  ActionBackgroundColor,
+  ActionTextColor,
+  CancelBackgroundColor,
+  CancelTextColor,
+  FieldBackgroundColor,
+} from "./colors";
 
 export const Theme: Field = {
   id: "theme",
   label: "Theme",
   description: "The theme to use for the message",
-  order: 10,
   type: "string",
   method: "select",
   options: [
@@ -27,14 +37,15 @@ export const Theme: Field = {
     {
       value: "custom",
       fieldsToShow: [
-        "backgroundColor",
-        "textColor",
-        "closeColor",
-        "actionBackgroundColor",
-        "actionTextColor",
-        "cancelBackgroundColor",
-        "cancelTextColor",
-        "fieldBackgroundColor",
+        BackgroundColor.id,
+        HeadlineColor.id,
+        TextColor.id,
+        CloseColor.id,
+        ActionBackgroundColor.id,
+        ActionTextColor.id,
+        CancelBackgroundColor.id,
+        CancelTextColor.id,
+        FieldBackgroundColor.id,
       ],
     },
   ],

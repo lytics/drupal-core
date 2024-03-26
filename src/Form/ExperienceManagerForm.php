@@ -92,7 +92,7 @@ class ExperienceManagerForm extends FormBase
     ];
 
     $form['config'] = [
-      '#type' => 'textarea',
+      '#type' => 'hidden',
       '#title' => $this->t('Configuration'),
       '#required' => FALSE,
       '#rows' => 10,

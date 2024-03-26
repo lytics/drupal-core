@@ -2,7 +2,7 @@ import { Field } from "../pfa-fields";
 
 export const PositionSelector: Field = {
   id: "positionSelector",
-  label: "Position Selector",
+  label: "Position Selector (optional)",
   description:
     "DOM selector of the parent element you would like to insert the experience into.",
   type: "string",

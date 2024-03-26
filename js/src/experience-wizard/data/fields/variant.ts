@@ -37,10 +37,14 @@ export const Variant: Field = {
   label: "Template",
   description:
     "Set the variant value for the experience which determines what content is surfaced, such as images.",
-  order: 2,
   type: "string",
   method: "select",
-  dependencies: [],
+  dependencies: [
+    {
+      value: OptionIncludeImage.value,
+      fieldsToShow: ["image"],
+    },
+  ],
   required: true,
   hidden: true,
   render: "config.variant",

@@ -1,6 +1,7 @@
 import React from "react";
 import { TextField } from "@mui/material";
 import { Field } from "../../data/pfa-fields";
+import { helperTextStyles } from "../styles/inputLabel";
 
 export interface TextAreaProps {
   field: Field;
@@ -28,6 +29,7 @@ export const TextAreaInput: React.FC<TextAreaProps> = (textAreaProps) => {
           rows={rows || 4}
           sx={{
             width: "100%",
+            ".MuiFormHelperText-root": helperTextStyles,
             "& .MuiInputBase-multiline": {
               backgroundColor: "#FFF",
             },

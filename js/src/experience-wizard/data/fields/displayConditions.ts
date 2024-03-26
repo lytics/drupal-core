@@ -36,6 +36,12 @@ const OptionHideAfterAction: SelectOption = {
   type: "null",
 };
 
+const OptionShowOnExitIntent: SelectOption = {
+  label: "Show on Exit Intent",
+  value: "showOnExitIntent",
+  type: "null",
+};
+
 export const DisplayConditions: Field = {
   id: "displayConditions",
   label: "Display Conditions",
@@ -52,6 +58,7 @@ export const DisplayConditions: Field = {
     OptionPageVisits,
     OptionImpression,
     OptionHideAfterAction,
+    OptionShowOnExitIntent,
   ],
   dependencies: [
     {

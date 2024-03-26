@@ -10,6 +10,7 @@ import {
   SelectChangeEvent,
 } from "@mui/material";
 import { Field } from "../../data/pfa-fields";
+import { helperTextStyles } from "../styles/inputLabel";
 
 export interface SelectMultipleInputProps {
   field: Field;
@@ -28,27 +29,25 @@ export const SelectMultipleInput: React.FC<SelectMultipleInputProps> = (
   const [activeConditions, setActiveConditions] = React.useState<string[]>([]);
 
   useEffect(() => {
-    if (formValues[field.id]) {
+    const value = formValues[field.id];
+
+    if (value === "") {
+      setActiveConditions([]);
+    } else {
       setActiveConditions(formValues[field.id].split(","));
-
-      // // get all of the keys in the object if it exists
-      // const activeKeys = Object.keys(formValues[field.id]);
-
-      // // ensure each of hte keys has a value and not an empty string or object
-      // const filteredKeys = activeKeys.filter(
-      //   (key) => formValues[field.id][key] !== ""
-      // );
-
-      // setActiveConditions(filteredKeys);
     }
   }, [formValues]);
 
   const handleSelectCheckChange = (
-    fieldId: string,
-    value: string | string[]
+    event: SelectChangeEvent<typeof activeConditions>
   ) => {
+    const {
+      target: { value },
+    } = event;
+
+    console.log("value", value);
     const stringValue = typeof value === "string" ? value : value.join(",");
-    handleChange(fieldId, stringValue);
+    handleChange(field.id, stringValue);
   };
 
   return (
@@ -62,24 +61,11 @@ export const SelectMultipleInput: React.FC<SelectMultipleInputProps> = (
             label={field.label}
             multiple
             value={activeConditions}
-            onChange={(e) => handleSelectCheckChange(field.id, e.target.value)}
-            // onChange={(e) => handleChangeConditions(e, field.id)}
+            onChange={handleSelectCheckChange}
             required={field.required}
             renderValue={(selected) => {
-              // const selectedOption = field.options?.find(
-              //   (option) => option.value === selected
-              // );
-              // return selectedOption?.label || "";
               return selected.join(", ");
             }}
-            //     MenuProps={MenuProps}
-            // >
-            //   {names.map((name) => (
-            //     <MenuItem key={name} value={name}>
-            //       <Checkbox checked={personName.indexOf(name) > -1} />
-            //       <ListItemText primary={name} />
-            //     </MenuItem>
-            //   ))}
             sx={{
               width: "100%",
               "& .MuiSelect-select": {
@@ -100,7 +86,13 @@ export const SelectMultipleInput: React.FC<SelectMultipleInputProps> = (
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText>{field.description || undefined}</FormHelperText>
+          <FormHelperText
+            sx={{
+              ...helperTextStyles,
+            }}
+          >
+            {field.description || undefined}
+          </FormHelperText>
         </FormControl>
       )}
     </>

@@ -3,8 +3,9 @@ import { Field } from "../../pfa-fields";
 // hideAfterAction.closed
 export const HideAfterActionClosedHideCount: Field = {
   id: "hideAfterActionClosedHideCount",
-  label: "Maximum number of closes before hiding?",
-  description: "TBD",
+  label: "Max number of close actions?",
+  description:
+    "How many times should the experience be manually closed before it is hidden?",
   type: "number",
   method: "input",
   required: false,
@@ -14,8 +15,9 @@ export const HideAfterActionClosedHideCount: Field = {
 
 export const HideAfterActionClosedHideDuration: Field = {
   id: "hideAfterActionClosedHideDuration",
-  label: "How long to hide after closing?",
-  description: "TBD",
+  label: "Refresh close action counter every (seconds)?",
+  description:
+    "Defines the number of seconds which must elapse before the close action count is reset to zero.",
   type: "number",
   method: "input",
   required: false,
@@ -26,8 +28,9 @@ export const HideAfterActionClosedHideDuration: Field = {
 // hideAfterAction.confirm
 export const HideAfterActionConfirmHideCount: Field = {
   id: "hideAfterActionConfirmHideCount",
-  label: "Maximum number of confirms before hiding?",
-  description: "TBD",
+  label: "Max number of confirm actions?",
+  description:
+    "How many times should the experience be manually confirmed before it is hidden?",
   type: "number",
   method: "input",
   required: false,
@@ -37,8 +40,9 @@ export const HideAfterActionConfirmHideCount: Field = {
 
 export const HideAfterActionConfirmHideDuration: Field = {
   id: "hideAfterActionConfirmHideDuration",
-  label: "How long to hide after confirming?",
-  description: "TBD",
+  label: "Refresh confirm action counter every (seconds)?",
+  description:
+    "Defines the number of seconds which must elapse before the confirm action count is reset to zero.",
   type: "number",
   method: "input",
   required: false,
@@ -50,8 +54,9 @@ export const HideAfterActionConfirmHideDuration: Field = {
 
 export const HideAfterActionCancelHideCount: Field = {
   id: "hideAfterActionCancelHideCount",
-  label: "Maximum number of cancels before hiding?",
-  description: "TBD",
+  label: "Max number of cancel actions?",
+  description:
+    "How many times should the experience be manually cancelled before it is hidden?",
   type: "number",
   method: "input",
   required: false,
@@ -61,8 +66,9 @@ export const HideAfterActionCancelHideCount: Field = {
 
 export const HideAfterActionCancelHideDuration: Field = {
   id: "hideAfterActionCancelHideDuration",
-  label: "How long to hide after cancelling?",
-  description: "TBD",
+  label: "Should we reset the cancel action count after a period of time?",
+  description:
+    "Defines the number of seconds which must elapse before the cancel action count is reset to zero.",
   type: "number",
   method: "input",
   required: false,

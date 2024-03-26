@@ -3,6 +3,7 @@ import { Avatar, Stack, Typography } from "@mui/material";
 
 export interface NumberedSectionProps {
   number: number;
+  inputSpaceVertical?: number;
   headline: string;
   description?: string;
   children: React.ReactNode;
@@ -30,13 +31,14 @@ export const StepHeader = ({ number, label }) => {
 export const NumberedSection: React.FC<NumberedSectionProps> = ({
   children,
   description,
+  inputSpaceVertical,
   headline,
   number,
 }) => {
   return (
     <Stack
       direction="column"
-      spacing={2}
+      spacing={inputSpaceVertical || 2}
       flex={1}
       borderRadius={2}
       bgcolor={"#F7F7F7"}

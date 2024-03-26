@@ -75,7 +75,8 @@ const getSelectOptions = (type: string): SelectOption[] => {
 export const Position: Field = {
   id: "position",
   label: "Position",
-  description: "The position of the message",
+  description:
+    "The location for the experience to sit once it is fully loaded.",
   type: "string",
   method: "select",
   required: false,

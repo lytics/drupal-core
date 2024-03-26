@@ -1,6 +1,7 @@
 import React from "react";
-import { FormControl, InputLabel } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { Field } from "../../data/pfa-fields";
+import { helperTextStyles } from "../styles/inputLabel";
 
 export interface ColorInputProps {
   field: Field;
@@ -15,18 +16,23 @@ export const ColorInput: React.FC<ColorInputProps> = (colorInputProps) => {
   return (
     <>
       {visible && (
-        <FormControl id={`field-${field.id}`} key={field.id} variant="standard">
-          <InputLabel shrink htmlFor={field.id}>
-            {field.label}
-          </InputLabel>
+        <Stack>
           <input
             type="color"
             id={field.id}
             value={formValues[field.id] || ""}
             onChange={(e) => handleChange(field.id, e.target.value)}
             required={field.required}
+            style={{ width: "100%", height: "50px" }}
           />
-        </FormControl>
+          <Typography
+            variant="body2"
+            textAlign={"center"}
+            sx={{ ...helperTextStyles }}
+          >
+            {field.label}
+          </Typography>
+        </Stack>
       )}
     </>
   );
