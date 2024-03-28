@@ -40,7 +40,6 @@ export const NumberedSection: React.FC<NumberedSectionProps> = ({
       direction="column"
       spacing={inputSpaceVertical || 2}
       flex={1}
-      borderRadius={2}
       bgcolor={"#F7F7F7"}
       p={5}
     >

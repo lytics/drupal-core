@@ -42,6 +42,9 @@ function compileSCSS() {
 }
 
 export default defineConfig({
+  esbuild: {
+    target: "es2015",
+  },
   server: {
     watch: {
       include: [
@@ -153,6 +156,7 @@ export default defineConfig({
     },
   },
   build: {
+    minify: true,
     outDir: outDir,
     rollupOptions: {
       input: {

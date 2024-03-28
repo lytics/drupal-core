@@ -1,14 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Box, Stack, Tab, Tabs } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Button, Stack, Tab, Tabs } from "@mui/material";
 
 import {
   Field,
   type,
   headline,
   layout,
-  layoutWithOptions,
   variant,
-  variantWithOptions,
   theme,
   backgroundColor,
   textColor,
@@ -27,9 +25,7 @@ import {
   image,
   positionSelector,
   position,
-  positionWithOptions,
   origin,
-  originWithOptions,
   pushDown,
   experienceTitle,
   experienceDescription,
@@ -58,19 +54,15 @@ import {
 
 import { TextAreaInput } from "./components/form/textarea";
 import { TextInput } from "./components/form/input";
-import { CheckboxInput } from "./components/form/checkbox";
 import { SelectInput } from "./components/form/select";
-import { ColorInput } from "./components/form/color";
-import { SelectMultipleInput } from "./components/form/selectMultiple";
-import {
-  URLContainsBuilder,
-  URLContainsItem,
-} from "./components/form/urlContains";
-import { NumberedSection } from "./components/form/numberedSection";
-import { ConditionGroup } from "./components/form/conditionGroup";
 import { SectionHeader } from "./components/form/sectionHeader";
-import { ColorPicker } from "./components/form/colorPicker";
 import { JSONInputWithHighlighting } from "./components/form/syntaxHighlighedTextArea";
+import { MessagingSection } from "./components/messaging";
+import { TargetingSection } from "./components/targeting";
+import { PositionSection } from "./components/position";
+import { BrandingSection } from "./components/branding";
+import { DisplayRulesSection } from "./components/displayRules";
+import { PathforaHandler } from "./utility/pathforaInterface";
 
 interface ExperienceWizardProps {
   accountId: string;
@@ -79,21 +71,79 @@ interface ExperienceWizardProps {
 }
 
 const inputSpaceVert = 4;
-const headerSpacevert = 3;
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Box
+      role="tabpanel"
+      hidden={value !== index}
+      flex={1}
+      id={`configuration-panel-${index}`}
+      {...other}
+    >
+      {value === index && <Box>{children}</Box>}
+    </Box>
+  );
+}
 
 const ExperienceWizard: React.FC<ExperienceWizardProps> = ({
   accountId,
   accessToken,
   pathforaConfig,
 }) => {
+  // test
+
+  // const obj = {
+  //   id: "confirm-callback",
+  //   layout: "modal",
+  //   msg: 'Click the "confirm" button to see the callback',
+  //   confirmAction: {
+  //     name: "custom confirm",
+  //     callback: function (event, payload) {
+  //       alert("confirm callback");
+  //       console.log(payload);
+  //     },
+  //   },
+  // };
+
+  // const testSerialize = serialize(obj);
+
+  // function deserialize(serializedJavascript) {
+  //   return eval("(" + serializedJavascript + ")");
+  // }
+
+  // const deserialized = deserialize(testSerialize);
+  // deserialized.confirmAction.callback();
+
+  // test
+
   const [formValues, setFormValues] = useState<{
     [key: string]: any;
   }>({});
   const [formFieldVisibility, setFormFieldVisibility] = useState<{
     [key: string]: boolean;
   }>({});
-  const [tabValue, setTabValue] = useState(0);
-  const [renderedConfig, setRenderedConfig] = useState("");
+  const [editorTypeTabValue, setEditorTypeTabValue] = useState(0);
+  const [basicEditorTabValue, setBasicEditorTabValue] = useState(0);
+  const [advancedEditorTabValue, setAdvancedEditorTabValue] = useState(0);
+  const [renderedConfig, setRenderedConfig] = useState(pathforaConfig);
+  const [pathfora, setPathfora] = useState<any>();
+
+  const [cbConfirmAction, setCbConfirmAction] = useState("");
+  const [cbCancelAction, setCbCancelAction] = useState("");
+  const [cbCloseAction, setCbCloseAction] = useState("");
+  const [cbOnInit, setCbOnInit] = useState("");
+  const [cbOnLoad, setCbOnLoad] = useState("");
+  const [cbOnClick, setCbOnClick] = useState("");
+  const [cbOnModalClose, setCbOnModalClose] = useState("");
 
   const fields: Field[] = [
     type,
@@ -147,13 +197,57 @@ const ExperienceWizard: React.FC<ExperienceWizardProps> = ({
   ];
 
   useEffect(() => {
-    console.log("accountId", accountId);
-    console.log("accessToken", accessToken);
-    console.log("pathforaConfig", pathforaConfig);
+    // console.log("accountId", accountId);
+    // console.log("accessToken", accessToken);
+    // console.log("pathforaConfig", pathforaConfig);
   }, []);
 
   useEffect(() => {
-    const inboundPathforaConfig = JSON.parse(pathforaConfig);
+    const pathforaHandler = async () => {
+      try {
+        const handler = new PathforaHandler();
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Adjust the delay as needed
+        setPathfora(handler);
+      } catch (error) {
+        console.error("Error creating PathforaHandler:", error);
+      }
+    };
+
+    pathforaHandler();
+  }, []);
+
+  const testpathfora = () => {
+    const config = JSON.parse(renderedConfig);
+    // const config = {
+    //   id: "confirm-callback",
+    //   layout: "modal",
+    //   msg: 'Click the "confirm" button to see the callback',
+    //   confirmAction: {
+    //     name: "custom confirm",
+    //     callback: function (event, payload) {
+    //       alert("confirm callback");
+    //       console.log(payload);
+    //     },
+    //   },
+    // };
+
+    const friendlyExperience = pathfora?.serializeExperience(config);
+    console.log(friendlyExperience);
+
+    const experience = pathfora?.deserializeExperience(friendlyExperience);
+    pathfora?.testExperience(experience);
+  };
+
+  const getValueByDotNotation = (obj, path) => {
+    return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+  };
+
+  const updateValuesFromConfig = (config: string) => {
+    if (!config) {
+      return;
+    }
+    const inboundPathforaConfig = JSON.parse(config);
+
     fields.forEach((field) => {
       const { id, render } = field;
       const value = getValueByDotNotation(inboundPathforaConfig, render);
@@ -163,16 +257,31 @@ const ExperienceWizard: React.FC<ExperienceWizardProps> = ({
       }));
       checkDependency(field.id, value);
     });
-
-    // Function to get value from dot notation
-    function getValueByDotNotation(obj, path) {
-      return path.split(".").reduce((acc, part) => acc && acc[part], obj);
-    }
-  }, []);
-
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);
   };
+
+  const handleEditorTypeTabChange = (event, newValue) => {
+    setEditorTypeTabValue(newValue);
+  };
+
+  const handleBasicEditorTabChange = (event, newValue) => {
+    setBasicEditorTabValue(newValue);
+  };
+
+  const handleAdvancedEditorTabChange = (event, newValue) => {
+    setAdvancedEditorTabValue(newValue);
+  };
+
+  // const handleBasicTabChange = (event, newValue) => {
+  //   setBasicEditorTabValue(newValue);
+  // };
+
+  // const handleAdvancedTabChange = (event, newValue) => {
+  //   setAdvancedEditorTabValue(newValue);
+  // };
+
+  useEffect(() => {
+    updateValuesFromConfig(pathforaConfig);
+  }, []);
 
   const handleChange = (fieldId: string, value: any) => {
     setFormValues((prevFormValues) => ({
@@ -287,8 +396,7 @@ const ExperienceWizard: React.FC<ExperienceWizardProps> = ({
     });
 
     let valuesToCheck: string[] = [];
-    if (field.type === "array") {
-      console.log("checking", field.id, value);
+    if (field.type === "array" && value) {
       valuesToCheck = value.split(",");
     } else {
       valuesToCheck = [value];
@@ -303,7 +411,6 @@ const ExperienceWizard: React.FC<ExperienceWizardProps> = ({
       // if there is a match, show the fields
       if (dependencyMatch) {
         dependencyMatch.fieldsToShow.forEach((id) => {
-          // console.log("showing field: ", id);
           setFormFieldVisibility((prevVisibility) => ({
             ...prevVisibility,
             [id]: true,
@@ -330,20 +437,9 @@ const ExperienceWizard: React.FC<ExperienceWizardProps> = ({
     );
   };
 
-  const fieldValueContains = (
-    field: string,
-    value: string | string[]
-  ): boolean => {
-    const values = Array.isArray(value) ? value : [value];
-    return values.some((v) => {
-      const fieldValue = formValues[field];
-      const fieldValueArray = fieldValue.split(",");
-
-      // iterate through fieldValueArray and look for exact match
-      return fieldValueArray.some((fv) => fv === v);
-
-      // return typeof fieldValue === "string" && fieldValue.includes(v);
-    });
+  const handleConfigChange = (value: string) => {
+    console.log("here");
+    updateValuesFromConfig(value);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -360,6 +456,22 @@ const ExperienceWizard: React.FC<ExperienceWizardProps> = ({
 
   return (
     <form onSubmit={handleSubmit}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={testpathfora}
+        style={{
+          position: "fixed",
+          // top: "50%",
+          right: 20,
+          bottom: 5,
+          transform: "translateY(-50%)",
+          zIndex: 1200,
+        }}
+      >
+        Preview Experience
+      </Button>
+
       <Stack spacing={3}>
         {/* top level experience details */}
         <Stack spacing={2}>
@@ -453,12 +565,10 @@ const ExperienceWizard: React.FC<ExperienceWizardProps> = ({
           />
 
           {isFieldSet(type.id) && (
-            // tabs here
-
-            <Stack flex={1} spacing={1}>
+            <Stack flex={1} spacing={0}>
               <Tabs
-                value={tabValue}
-                onChange={handleTabChange}
+                value={editorTypeTabValue}
+                onChange={handleEditorTypeTabChange}
                 style={{ marginLeft: "auto" }}
                 sx={{
                   "& .MuiButtonBase-root": {
@@ -467,611 +577,163 @@ const ExperienceWizard: React.FC<ExperienceWizardProps> = ({
                       borderColor: "none",
                     },
                   },
+                  background: "#ECECEC",
                 }}
               >
                 <Tab label="Basic Editor" />
                 <Tab label="Advanced Editor" />
               </Tabs>
-              {tabValue === 1 && (
-                <Box>
-                  <JSONInputWithHighlighting
-                    value={renderedConfig}
-                    // onChange={(value) => setRenderedConfig(value)}
-                  />
+
+              {editorTypeTabValue === 1 && (
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    bgcolor: "background.paper",
+                    display: "flex",
+                  }}
+                >
+                  <Tabs
+                    orientation="vertical"
+                    variant="scrollable"
+                    value={advancedEditorTabValue}
+                    onChange={handleAdvancedEditorTabChange}
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "divider",
+                      "& .MuiButtonBase-root": {
+                        "&:focus": {
+                          boxShadow: "none",
+                          borderColor: "none",
+                        },
+                      },
+                    }}
+                  >
+                    <Tab label="Pathfora" id={"advanced-tab-0"} />
+                    <Tab label="Callbacks" id={"advanced-tab-2"} />
+                    <Tab label="CSS" id={"advanced-tab-1"} />
+                  </Tabs>
+
+                  {/* Pathfora Editor Tab */}
+                  <TabPanel value={advancedEditorTabValue} index={0}>
+                    <Box>
+                      <JSONInputWithHighlighting
+                        value={renderedConfig}
+                        onChange={handleConfigChange}
+                      />
+                    </Box>
+                  </TabPanel>
+
+                  {/* const [cbConfirmAction, setCbConfirmAction] = useState("");
+                  const [cbCancelAction, setCbCancelAction] = useState("");
+                  const [cbCloseAction, setCbCloseAction] = useState("");
+                  const [cbOnInit, setCbOnInit] = useState("");
+                  const [cbOnLoad, setCbOnLoad] = useState("");
+                  const [cbOnClick, setCbOnClick] = useState("");
+                  const [cbOnModalClose, setCbOnModalClose] = useState(""); */}
+
+                  {/* Callback Function Editor Tab */}
+                  <TabPanel value={advancedEditorTabValue} index={2}>
+                    <Box>
+                      <JSONInputWithHighlighting
+                        value={""}
+                        onChange={handleConfigChange}
+                      />
+                    </Box>
+                  </TabPanel>
+
+                  {/* CSS Editor Tab */}
+                  <TabPanel value={advancedEditorTabValue} index={1}>
+                    <Box>
+                      <JSONInputWithHighlighting
+                        value={""}
+                        onChange={handleConfigChange}
+                      />
+                    </Box>
+                  </TabPanel>
                 </Box>
               )}
-              {tabValue === 0 && (
-                <Stack direction="column" spacing={4}>
-                  {/* messaging and url rules */}
-                  <Stack direction="row" spacing={4}>
-                    <NumberedSection
-                      number={1}
-                      headline={"What would you like your experience to say?"}
-                    >
-                      <TextInput
-                        field={headline}
-                        visible={
-                          formFieldVisibility[headline.id] || !headline.hidden
-                        }
-                        formValues={formValues}
-                        handleChange={handleChange}
-                      />
-                      <TextAreaInput
-                        field={message}
-                        visible={
-                          formFieldVisibility[message.id] || !message.hidden
-                        }
-                        formValues={formValues}
-                        handleChange={handleChange}
-                      />
-                      <Stack direction="row" spacing={inputSpaceVert}>
-                        <Stack direction={"column"} spacing={0} minWidth={325}>
-                          <CheckboxInput
-                            field={okShow}
-                            visible={
-                              formFieldVisibility[okShow.id] || !okShow.hidden
-                            }
-                            formValues={formValues}
-                            handleChange={handleChange}
-                          />
-                          <Box pl={4} pr={5}>
-                            <TextInput
-                              field={okMessage}
-                              visible={isFieldSet(okShow.id)}
-                              size="small"
-                              formValues={formValues}
-                              handleChange={handleChange}
-                            />
-                          </Box>
-                        </Stack>
-                        <Stack direction={"column"} spacing={0} minWidth={325}>
-                          <CheckboxInput
-                            field={cancelShow}
-                            visible={
-                              formFieldVisibility[cancelShow.id] ||
-                              !cancelShow.hidden
-                            }
-                            formValues={formValues}
-                            handleChange={handleChange}
-                          />
-                          <Box pl={4} pr={5}>
-                            <TextInput
-                              field={cancelMessage}
-                              visible={isFieldSet(cancelShow.id)}
-                              size="small"
-                              formValues={formValues}
-                              handleChange={handleChange}
-                            />
-                          </Box>
-                        </Stack>
-                      </Stack>
-                    </NumberedSection>
+              {editorTypeTabValue === 0 && (
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    bgcolor: "background.paper",
+                    display: "flex",
+                  }}
+                >
+                  <Tabs
+                    orientation="vertical"
+                    variant="scrollable"
+                    value={basicEditorTabValue}
+                    onChange={handleBasicEditorTabChange}
+                    sx={{
+                      borderRight: 1,
+                      borderColor: "divider",
+                      "& .MuiButtonBase-root": {
+                        "&:focus": {
+                          boxShadow: "none",
+                          borderColor: "none",
+                        },
+                      },
+                    }}
+                  >
+                    <Tab label="Messaging" id={"basic-tab-0"} />
+                    <Tab label="Targeting" id={"basic-tab-1"} />
+                    <Tab label="Layout" id={"basic-tab-2"} />
+                    <Tab label="Branding" id={"basic-tab-3"} />
+                    <Tab label="Display Rules" id={"basic-tab-4"} />
+                  </Tabs>
 
-                    <NumberedSection
-                      number={2}
-                      headline={
-                        "Where would you like your experience to be displayed?"
-                      }
-                    >
-                      <URLContainsBuilder
-                        field={urlContains}
-                        visible={isFieldSet(type.id)}
-                        formValues={formValues}
-                        handleChange={handleChange}
-                      />
-                    </NumberedSection>
-                  </Stack>
+                  {/* Messaging Tab */}
+                  <TabPanel value={basicEditorTabValue} index={0}>
+                    <MessagingSection
+                      formValues={formValues}
+                      isFieldSet={isFieldSet}
+                      handleChange={handleChange}
+                      formFieldVisibility={formFieldVisibility}
+                      spacing={inputSpaceVert}
+                    />
+                  </TabPanel>
 
-                  {/* layout */}
-                  <Stack direction="row" spacing={4}>
-                    <NumberedSection
-                      inputSpaceVertical={inputSpaceVert}
-                      number={3}
-                      headline={
-                        "Where and how would you like your experience to appear?"
-                      }
-                    >
-                      <SelectInput
-                        field={layoutWithOptions(formValues[type.id])}
-                        position={"default"}
-                        visible={isFieldSet(type.id)}
-                        formValues={formValues}
-                        handleChange={handleChange}
-                      />
+                  {/* Taregeting Tab */}
+                  <TabPanel value={basicEditorTabValue} index={1}>
+                    <TargetingSection
+                      formValues={formValues}
+                      isFieldSet={isFieldSet}
+                      handleChange={handleChange}
+                    />
+                  </TabPanel>
 
-                      <Stack spacing={inputSpaceVert} direction={"row"}>
-                        <ConditionGroup
-                          spacing={inputSpaceVert}
-                          label={"Design Options"}
-                        >
-                          <SelectInput
-                            field={variantWithOptions(formValues[layout.id])}
-                            position={"default"}
-                            visible={isFieldSet(layout.id)}
-                            formValues={formValues}
-                            handleChange={handleChange}
-                          />
+                  {/* Position Tab */}
+                  <TabPanel value={basicEditorTabValue} index={2}>
+                    <PositionSection
+                      formValues={formValues}
+                      isFieldSet={isFieldSet}
+                      handleChange={handleChange}
+                      formFieldVisibility={formFieldVisibility}
+                      spacing={inputSpaceVert}
+                    />
+                  </TabPanel>
 
-                          <TextInput
-                            field={image}
-                            visible={
-                              formFieldVisibility[image.id] || !image.hidden
-                            }
-                            formValues={formValues}
-                            handleChange={handleChange}
-                          />
-                        </ConditionGroup>
-                        <ConditionGroup
-                          spacing={inputSpaceVert}
-                          label={"Positioning"}
-                        >
-                          <SelectInput
-                            field={positionWithOptions(formValues[layout.id])}
-                            visible={
-                              formFieldVisibility[position.id] ||
-                              !position.hidden
-                            }
-                            position={"default"}
-                            formValues={formValues}
-                            handleChange={handleChange}
-                          />
+                  {/* Branding Tab */}
+                  <TabPanel value={basicEditorTabValue} index={3}>
+                    <BrandingSection
+                      formValues={formValues}
+                      handleChange={handleChange}
+                      formFieldVisibility={formFieldVisibility}
+                    />
+                  </TabPanel>
 
-                          <SelectInput
-                            field={originWithOptions(formValues[layout.id])}
-                            visible={
-                              formFieldVisibility[origin.id] || !origin.hidden
-                            }
-                            position={"default"}
-                            formValues={formValues}
-                            handleChange={handleChange}
-                          />
-
-                          <TextInput
-                            field={pushDown}
-                            visible={
-                              formFieldVisibility[pushDown.id] ||
-                              !pushDown.hidden
-                            }
-                            formValues={formValues}
-                            handleChange={handleChange}
-                          />
-
-                          <TextInput
-                            field={positionSelector}
-                            visible={
-                              formFieldVisibility[positionSelector.id] ||
-                              !positionSelector.hidden
-                            }
-                            formValues={formValues}
-                            handleChange={handleChange}
-                          />
-                        </ConditionGroup>
-                      </Stack>
-                    </NumberedSection>
-                  </Stack>
-                  <Stack direction="row" spacing={inputSpaceVert}>
-                    <NumberedSection
-                      number={4}
-                      headline={
-                        "How would you like to configure the design of your experience?"
-                      }
-                    >
-                      <SelectInput
-                        field={theme}
-                        visible={formFieldVisibility[theme.id] || !theme.hidden}
-                        position={"default"}
-                        formValues={formValues}
-                        handleChange={handleChange}
-                      />
-
-                      <ColorPicker>
-                        <ColorInput
-                          field={textColor}
-                          visible={
-                            formFieldVisibility[textColor.id] ||
-                            !textColor.hidden
-                          }
-                          formValues={formValues}
-                          handleChange={handleChange}
-                        />
-
-                        <ColorInput
-                          field={headlineColor}
-                          visible={
-                            formFieldVisibility[headlineColor.id] ||
-                            !headlineColor.hidden
-                          }
-                          formValues={formValues}
-                          handleChange={handleChange}
-                        />
-
-                        <ColorInput
-                          field={closeColor}
-                          visible={
-                            formFieldVisibility[closeColor.id] ||
-                            !closeColor.hidden
-                          }
-                          formValues={formValues}
-                          handleChange={handleChange}
-                        />
-
-                        <ColorInput
-                          field={actionBackgroundColor}
-                          visible={
-                            formFieldVisibility[actionBackgroundColor.id] ||
-                            !actionBackgroundColor.hidden
-                          }
-                          formValues={formValues}
-                          handleChange={handleChange}
-                        />
-
-                        <ColorInput
-                          field={actionTextColor}
-                          visible={
-                            formFieldVisibility[actionTextColor.id] ||
-                            !actionTextColor.hidden
-                          }
-                          formValues={formValues}
-                          handleChange={handleChange}
-                        />
-
-                        <ColorInput
-                          field={cancelBackgroundColor}
-                          visible={
-                            formFieldVisibility[cancelBackgroundColor.id] ||
-                            !cancelBackgroundColor.hidden
-                          }
-                          formValues={formValues}
-                          handleChange={handleChange}
-                        />
-
-                        <ColorInput
-                          field={cancelTextColor}
-                          visible={
-                            formFieldVisibility[cancelTextColor.id] ||
-                            !cancelTextColor.hidden
-                          }
-                          formValues={formValues}
-                          handleChange={handleChange}
-                        />
-
-                        <ColorInput
-                          field={fieldBackgroundColor}
-                          visible={
-                            formFieldVisibility[fieldBackgroundColor.id] ||
-                            !fieldBackgroundColor.hidden
-                          }
-                          formValues={formValues}
-                          handleChange={handleChange}
-                        />
-                      </ColorPicker>
-                    </NumberedSection>
-                  </Stack>
-
-                  {/* display conditions */}
-                  <Stack direction="row" spacing={4}>
-                    <NumberedSection
-                      number={5}
-                      headline={
-                        "Are there any other special conditions you'd like your experience to display under?"
-                      }
-                    >
-                      <SelectMultipleInput
-                        field={displayConditions}
-                        position="default"
-                        visible={isFieldSet(layout.id)}
-                        formValues={formValues}
-                        handleChange={handleChange}
-                      />
-
-                      {isFieldSet(displayConditions.id) && (
-                        <Stack
-                          mt={3}
-                          p={3}
-                          spacing={5}
-                          sx={{
-                            flex: 1,
-                            borderLeft: "5px solid #E0E0E0",
-                            borderRight: "5px solid #E0E0E0",
-                            backgroundColor: "#FFF",
-                          }}
-                        >
-                          {fieldValueContains(displayConditions.id, [
-                            hideAfter.id,
-                            pageVisits.id,
-                            scrollPercentageToDisplay.id,
-                            showDelay.id,
-                            showOnExitIntent.id,
-                          ]) && (
-                            <Stack spacing={headerSpacevert}>
-                              <SectionHeader
-                                variation="secondary"
-                                headline={
-                                  "General engagement and delay based conditions."
-                                }
-                                description={
-                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pulvinar sed enim ac maximus. Vivamus dui ligula, blandit vel est id, pellentesque dapibus tortor. Proin quis ullamcorper ex, tincidunt egestas orci."
-                                }
-                              />
-
-                              <Stack
-                                spacing={inputSpaceVert}
-                                direction={"column"}
-                              >
-                                <TextInput
-                                  field={hideAfter}
-                                  type="number"
-                                  visible={fieldValueContains(
-                                    displayConditions.id,
-                                    hideAfter.id
-                                  )}
-                                  formValues={formValues}
-                                  handleChange={handleChange}
-                                  size="small"
-                                />
-
-                                <TextInput
-                                  field={pageVisits}
-                                  type="number"
-                                  visible={fieldValueContains(
-                                    displayConditions.id,
-                                    pageVisits.id
-                                  )}
-                                  formValues={formValues}
-                                  handleChange={handleChange}
-                                  size="small"
-                                />
-
-                                <TextInput
-                                  field={scrollPercentageToDisplay}
-                                  type="number"
-                                  visible={fieldValueContains(
-                                    displayConditions.id,
-                                    scrollPercentageToDisplay.id
-                                  )}
-                                  formValues={formValues}
-                                  handleChange={handleChange}
-                                  size="small"
-                                />
-
-                                <TextInput
-                                  field={showDelay}
-                                  type="number"
-                                  visible={fieldValueContains(
-                                    displayConditions.id,
-                                    showDelay.id
-                                  )}
-                                  formValues={formValues}
-                                  handleChange={handleChange}
-                                  size="small"
-                                />
-
-                                <SelectInput
-                                  field={showOnExitIntent}
-                                  position="default"
-                                  visible={fieldValueContains(
-                                    displayConditions.id,
-                                    showOnExitIntent.id
-                                  )}
-                                  formValues={formValues}
-                                  handleChange={handleChange}
-                                />
-                              </Stack>
-                            </Stack>
-                          )}
-
-                          {fieldValueContains(
-                            displayConditions.id,
-                            "impressions"
-                          ) && (
-                            <Stack spacing={3}>
-                              <SectionHeader
-                                variation="secondary"
-                                headline={"Hide after receiving impressions?"}
-                                description={
-                                  "Impression settings applied globally will result in all experience interactions contributing to the logic. For instance, if you have three experiences running and a visitors sees each of them once, that will result in 3 total global impressions."
-                                }
-                              />
-                              <Stack spacing={inputSpaceVert} direction={"row"}>
-                                <ConditionGroup
-                                  spacing={inputSpaceVert}
-                                  label={"Widget"}
-                                >
-                                  <TextInput
-                                    field={impressionsWidgetSession}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        impressionsWidgetSession.id
-                                      ] || !impressionsWidgetSession.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                    size="small"
-                                  />
-
-                                  <TextInput
-                                    field={impressionsWidgetTotal}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        impressionsWidgetTotal.id
-                                      ] || !impressionsWidgetTotal.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                    size="small"
-                                  />
-
-                                  <TextInput
-                                    field={impressionsWidgetDuration}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        impressionsWidgetDuration.id
-                                      ] || !impressionsWidgetDuration.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                    size="small"
-                                  />
-                                </ConditionGroup>
-
-                                <ConditionGroup
-                                  spacing={inputSpaceVert}
-                                  label={"Global"}
-                                >
-                                  <TextInput
-                                    field={impressionsGlobalSession}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        impressionsGlobalSession.id
-                                      ] || !impressionsGlobalSession.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                    size="small"
-                                  />
-                                  <TextInput
-                                    field={impressionsGlobalTotal}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        impressionsGlobalTotal.id
-                                      ] || !impressionsGlobalTotal.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                    size="small"
-                                  />
-                                  <TextInput
-                                    field={impressionsGlobalDuration}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        impressionsGlobalDuration.id
-                                      ] || !impressionsGlobalDuration.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                    size="small"
-                                  />
-                                </ConditionGroup>
-                              </Stack>
-                            </Stack>
-                          )}
-
-                          {fieldValueContains(
-                            displayConditions.id,
-                            "hideAfterAction"
-                          ) && (
-                            <Stack spacing={3}>
-                              <SectionHeader
-                                variation="secondary"
-                                headline={"Hide after specific actions?"}
-                                description={
-                                  "Impression settings applied globally will result in all experience interactions contributing to the logic. For instance, if you have three experiences running and a visitors sees each of them once, that will result in 3 total global impressions."
-                                }
-                              />
-                              <Stack spacing={inputSpaceVert} direction={"row"}>
-                                <ConditionGroup
-                                  spacing={inputSpaceVert}
-                                  label={"After Closing Experience"}
-                                >
-                                  <TextInput
-                                    field={hideAfterActionClosedHideCount}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        hideAfterActionClosedHideCount.id
-                                      ] ||
-                                      !hideAfterActionClosedHideCount.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                  />
-                                  <TextInput
-                                    field={hideAfterActionClosedHideDuration}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        hideAfterActionClosedHideDuration.id
-                                      ] ||
-                                      !hideAfterActionClosedHideDuration.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                  />
-                                </ConditionGroup>
-                                <ConditionGroup
-                                  spacing={inputSpaceVert}
-                                  label={"After Pressing Confirm"}
-                                >
-                                  <TextInput
-                                    field={hideAfterActionConfirmHideCount}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        hideAfterActionConfirmHideCount.id
-                                      ] ||
-                                      !hideAfterActionConfirmHideCount.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                  />
-
-                                  <TextInput
-                                    field={hideAfterActionConfirmHideDuration}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        hideAfterActionConfirmHideDuration.id
-                                      ] ||
-                                      !hideAfterActionConfirmHideDuration.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                  />
-                                </ConditionGroup>
-                                <ConditionGroup
-                                  spacing={inputSpaceVert}
-                                  label={"After Pressing Cancel"}
-                                >
-                                  <TextInput
-                                    field={hideAfterActionCancelHideCount}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        hideAfterActionCancelHideCount.id
-                                      ] ||
-                                      !hideAfterActionCancelHideCount.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                  />
-
-                                  <TextInput
-                                    field={hideAfterActionCancelHideDuration}
-                                    type="number"
-                                    visible={
-                                      formFieldVisibility[
-                                        hideAfterActionCancelHideDuration.id
-                                      ] ||
-                                      !hideAfterActionCancelHideDuration.hidden
-                                    }
-                                    formValues={formValues}
-                                    handleChange={handleChange}
-                                  />
-                                </ConditionGroup>
-                              </Stack>
-                            </Stack>
-                          )}
-                        </Stack>
-                      )}
-                    </NumberedSection>
-                  </Stack>
-                </Stack>
+                  {/* Display Rules Tab */}
+                  <TabPanel value={basicEditorTabValue} index={4}>
+                    <DisplayRulesSection
+                      formValues={formValues}
+                      isFieldSet={isFieldSet}
+                      handleChange={handleChange}
+                      formFieldVisibility={formFieldVisibility}
+                      spacing={inputSpaceVert}
+                    />
+                  </TabPanel>
+                </Box>
               )}
             </Stack>
           )}

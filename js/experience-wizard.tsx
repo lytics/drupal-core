@@ -41,7 +41,8 @@ const HelloWorld = () => {
   const accessToken = drupalSettings?.lytics?.access_token;
   const pathforaConfig = drupalSettings?.lytics?.pathfora_config;
 
-  console.log("settings", accessToken, accountId);
+  // console.log("settings", accessToken, accountId);
+
   return (
     <Box p={0} bgcolor="#FFF">
       <ExperienceWizard

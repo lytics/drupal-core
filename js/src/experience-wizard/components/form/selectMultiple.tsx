@@ -34,7 +34,7 @@ export const SelectMultipleInput: React.FC<SelectMultipleInputProps> = (
     if (value === "") {
       setActiveConditions([]);
     } else {
-      setActiveConditions(formValues[field.id].split(","));
+      setActiveConditions(formValues[field.id]?.split(","));
     }
   }, [formValues]);
 
@@ -60,7 +60,7 @@ export const SelectMultipleInput: React.FC<SelectMultipleInputProps> = (
             id={field.id}
             label={field.label}
             multiple
-            value={activeConditions}
+            value={activeConditions || []}
             onChange={handleSelectCheckChange}
             required={field.required}
             renderValue={(selected) => {
@@ -80,7 +80,7 @@ export const SelectMultipleInput: React.FC<SelectMultipleInputProps> = (
             {field.options?.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 <Checkbox
-                  checked={activeConditions.indexOf(option.value) > -1}
+                  checked={activeConditions?.indexOf(option.value) > -1}
                 />
                 <ListItemText primary={option.label} />
               </MenuItem>
